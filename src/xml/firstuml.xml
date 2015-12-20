@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_MTafQIxKEeWTWZNfrzjcgQ" name="RootElement">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_MZMXIIxKEeWTWZNfrzjcgQ" name="Activity1" node="_O4GpkIxKEeWTWZNfrzjcgQ _bu-1YIxKEeWTWZNfrzjcgQ _cdedoIxLEeWTWZNfrzjcgQ _hnBKUIxLEeWTWZNfrzjcgQ _mx560IxLEeWTWZNfrzjcgQ _xQh10IxLEeWTWZNfrzjcgQ _znwL4IxLEeWTWZNfrzjcgQ _4tk2MIxLEeWTWZNfrzjcgQ _FJqjcIxMEeWTWZNfrzjcgQ _G2LvoIxMEeWTWZNfrzjcgQ">
+    <edge xmi:type="uml:ControlFlow" xmi:id="__B1CgIxLEeWTWZNfrzjcgQ" target="_cdedoIxLEeWTWZNfrzjcgQ" source="_O4GpkIxKEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_BC_pAIxMEeWTWZNfrzjcgQ" target="_hnBKUIxLEeWTWZNfrzjcgQ" source="_cdedoIxLEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_Iyr4kIxMEeWTWZNfrzjcgQ" target="_bu-1YIxKEeWTWZNfrzjcgQ" source="_hnBKUIxLEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_cXO2QIxMEeWTWZNfrzjcgQ" name="[exist]" target="_znwL4IxLEeWTWZNfrzjcgQ" source="_bu-1YIxKEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_gRGDwIxMEeWTWZNfrzjcgQ" name="[not exist]" target="_mx560IxLEeWTWZNfrzjcgQ" source="_bu-1YIxKEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_lcULcIxMEeWTWZNfrzjcgQ" target="_FJqjcIxMEeWTWZNfrzjcgQ" source="_znwL4IxLEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_pI6ZAIxMEeWTWZNfrzjcgQ" name="[not over]" target="_4tk2MIxLEeWTWZNfrzjcgQ" source="_FJqjcIxMEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_rHHLEIxMEeWTWZNfrzjcgQ" name="[over]" target="_mx560IxLEeWTWZNfrzjcgQ" source="_FJqjcIxMEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_usmEAIxMEeWTWZNfrzjcgQ" target="_xQh10IxLEeWTWZNfrzjcgQ" source="_4tk2MIxLEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_vZmT8IxMEeWTWZNfrzjcgQ" target="_G2LvoIxMEeWTWZNfrzjcgQ" source="_xQh10IxLEeWTWZNfrzjcgQ"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_wDUmYIxMEeWTWZNfrzjcgQ" target="_G2LvoIxMEeWTWZNfrzjcgQ" source="_mx560IxLEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_O4GpkIxKEeWTWZNfrzjcgQ" name="InitialNode1" outgoing="__B1CgIxLEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:DecisionNode" xmi:id="_bu-1YIxKEeWTWZNfrzjcgQ" name="DecisionNode1" incoming="_Iyr4kIxMEeWTWZNfrzjcgQ" outgoing="_cXO2QIxMEeWTWZNfrzjcgQ _gRGDwIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_cdedoIxLEeWTWZNfrzjcgQ" name="Login" incoming="__B1CgIxLEeWTWZNfrzjcgQ" outgoing="_BC_pAIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_hnBKUIxLEeWTWZNfrzjcgQ" name="Member ID" incoming="_BC_pAIxMEeWTWZNfrzjcgQ" outgoing="_Iyr4kIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_mx560IxLEeWTWZNfrzjcgQ" name="Reject Transection" incoming="_gRGDwIxMEeWTWZNfrzjcgQ _rHHLEIxMEeWTWZNfrzjcgQ" outgoing="_wDUmYIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_xQh10IxLEeWTWZNfrzjcgQ" name="Accept Transection" incoming="_usmEAIxMEeWTWZNfrzjcgQ" outgoing="_vZmT8IxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_znwL4IxLEeWTWZNfrzjcgQ" name="Choose Miles" incoming="_cXO2QIxMEeWTWZNfrzjcgQ" outgoing="_lcULcIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_4tk2MIxLEeWTWZNfrzjcgQ" name="Verified Credit Card" incoming="_pI6ZAIxMEeWTWZNfrzjcgQ" outgoing="_usmEAIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:DecisionNode" xmi:id="_FJqjcIxMEeWTWZNfrzjcgQ" name="DecisionNode2" incoming="_lcULcIxMEeWTWZNfrzjcgQ" outgoing="_pI6ZAIxMEeWTWZNfrzjcgQ _rHHLEIxMEeWTWZNfrzjcgQ"/>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_G2LvoIxMEeWTWZNfrzjcgQ" name="ActivityFinalNode1" incoming="_vZmT8IxMEeWTWZNfrzjcgQ _wDUmYIxMEeWTWZNfrzjcgQ"/>
+  </packagedElement>
+</uml:Model>
