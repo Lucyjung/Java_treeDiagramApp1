@@ -16,25 +16,16 @@ public class TreeDiagram {
     private String    space = "  "; 
     public TreeDiagram (ArrayList <TestCase> input){
         testcases = input;
-    }
-    public void generateSuccessTreeDiagram (){
-        successTreeDiagram.operation = "AND";
-        for (TestCase testcase : testcases){
-            if (testcase.valid){
-                for (ConditionModel model: testcase.ConditionModels){
-                    TreeModel tree = new TreeModel ();
-                    tree.name = model.name + " " +  model.Conditions.get(0).name;
-                    tree.operation = "NONE";
-                    successTreeDiagram.tree.add(tree);
-                }
-                
-            }
-            
-        }
+        generateTreeDiagram(true);
+        generateTreeDiagram(false);
     }
     public void generateTreeDiagram (boolean buildSuccess){
         TreeModel diagram = new TreeModel();
-        diagram.operation = buildSuccess ? "AND":"OR";
+        int numOfValidPath = 0;
+        for (TestCase testcase : testcases){
+            if (testcase.valid)numOfValidPath++;
+        }
+        diagram.operation = (buildSuccess && (numOfValidPath == 1)) ? "AND":"OR";
         for (TestCase testcase : testcases){
             TreeModel testCaseTree = new TreeModel ();
             if (testcase.valid == buildSuccess){
@@ -46,7 +37,7 @@ public class TreeDiagram {
                 }
                 if (testcases.size() > 1) // There are more than one test case
                 {
-                    testCaseTree.operation = buildSuccess? "OR": "AND";
+                    testCaseTree.operation = (buildSuccess && (testcases.size() == 1)) ? "OR":"AND";
                     diagram.tree.add(testCaseTree);
                 }
                 else {

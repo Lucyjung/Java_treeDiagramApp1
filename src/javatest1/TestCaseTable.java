@@ -17,6 +17,7 @@ public class TestCaseTable {
     private TestCase temp = new TestCase();
     boolean workToDo = false;
     private int processedSource;
+    private int processedTarget;
     public TestCaseTable (ArrayList<umlNode> nodes, umlNode finalNode){
         umlNodes = nodes;
         generateTestCaseTable(nodes,finalNode);
@@ -27,6 +28,7 @@ public class TestCaseTable {
     private void generateTestCaseTable(ArrayList<umlNode> nodes, umlNode finalNode){
         
         processedSource = 0;
+        processedTarget = 0;
         for (adjacentNode goal : finalNode.sources){
             umlNode startNode = nodes.get(goal.index);
             do {
@@ -41,14 +43,17 @@ public class TestCaseTable {
     private boolean recur_node(umlNode node, boolean flag){
         
         boolean mutlisource = false;
+        int skipped = 0;
         for (adjacentNode source :node.sources){
-            if (processedSource > 0){
+            if (processedSource > 0 ){
                 processedSource--;
+                skipped++;
                 continue;
             }
             if (mutlisource){
                 workToDo = true;
                 processedSource++;
+                processedSource += skipped;
                 return mutlisource;
             }
             umlNode next  = umlNodes.get(source.index);
@@ -58,18 +63,28 @@ public class TestCaseTable {
         if (node.decisionNode){
             ArrayList<ConditionModel> ConditionModel = new ArrayList<ConditionModel> ();
             ConditionModel model = new ConditionModel();
-                 // decision node should have only 1 source
-                model.name = node.sources.get(0).name;
-                model.id = node.sources.get(0).id;
+                
                 for (adjacentNode target : node.targets){
-                    if (target.valid == flag){
+                    if (target.valid == flag && (processedTarget == 0)){
+                        // decision node should have only 1 source
+                        model.name = node.sources.get(0).name;
+                        model.id = node.sources.get(0).id;
                         Condition condition = new Condition();
                         condition.name = target.condition;
                         condition.valid = target.valid;
                         model.Conditions.add(condition);
+                        temp.ConditionModels.add(model);
+                        if (flag == false)
+                        {
+                            processedTarget++;
+                        } 
+                    }
+                    else if (target.valid == flag && (processedTarget > 0)){
+                        processedTarget--;
+                        continue;
                     }
                 }
-                temp.ConditionModels.add(model);
+                
                 
         }
         return true;

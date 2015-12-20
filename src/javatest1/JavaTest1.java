@@ -19,9 +19,10 @@ public class JavaTest1 {
     public static void main(String[] args) throws IOException {
         //Step 1. Load input 
         
-        String validGoal = "Accept Transection";
-        Input input = new Input("xml/firstuml.xml",validGoal);
-        
+        String validGoal = "Accept transaction";
+        Input input = new Input("xml/testxmi2.xml",validGoal);
+        //String validGoal = "Accept Transection";
+        //Input input = new Input("xml/firstuml.xml",validGoal);
         ArrayList<umlNode> nodes= input.getUmlNodes();
         //input.printUmlNodesArray();
         // Step 2. Create CCTM for every decision point 
@@ -30,12 +31,12 @@ public class JavaTest1 {
         
         // Step 3. create test case table
         TestCaseTable testCase = new TestCaseTable(nodes,input.getFinalNode());
-        ArrayList <TestCase> testcases = testCase.getTestCaseTable();
-        //testCase.printTestCases();
+        ArrayList<TestCase> testcases = testCase.getTestCaseTable();
+        testCase.printTestCases();
         // Step 4. create tree diagram 
         TreeDiagram tree = new TreeDiagram(testcases);
-        tree.generateTreeDiagram(true);
-        tree.generateTreeDiagram(false);
+//        tree.generateTreeDiagram(true);
+//        tree.generateTreeDiagram(false);
         tree.printSuccessTreeDiagram();
         tree.printFaultTreeDiagram();
         
