@@ -17,8 +17,15 @@ public class TestCaseTable {
     private TestCase temp = new TestCase();
     boolean workToDo = false;
     private int processedSource;
-    public void generateTestCaseTable(ArrayList<umlNode> nodes, umlNode finalNode){
+    public TestCaseTable (ArrayList<umlNode> nodes, umlNode finalNode){
         umlNodes = nodes;
+        generateTestCaseTable(nodes,finalNode);
+    }
+    public ArrayList<TestCase> getTestCaseTable(){
+        return testcases;
+    }
+    private void generateTestCaseTable(ArrayList<umlNode> nodes, umlNode finalNode){
+        
         processedSource = 0;
         for (adjacentNode goal : finalNode.sources){
             umlNode startNode = nodes.get(goal.index);

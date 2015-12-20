@@ -29,12 +29,15 @@ public class JavaTest1 {
         //cctm.printCCTMs();
         
         // Step 3. create test case table
-        TestCaseTable testCase = new TestCaseTable();
-        testCase.generateTestCaseTable(nodes,input.getFinalNode());
-        testCase.printTestCases();
+        TestCaseTable testCase = new TestCaseTable(nodes,input.getFinalNode());
+        ArrayList <TestCase> testcases = testCase.getTestCaseTable();
+        //testCase.printTestCases();
         // Step 4. create tree diagram 
-        TreeDiagram tree = new TreeDiagram();
-        tree.generateTreeDiagram();
+        TreeDiagram tree = new TreeDiagram(testcases);
+        tree.generateTreeDiagram(true);
+        tree.generateTreeDiagram(false);
+        tree.printSuccessTreeDiagram();
+        tree.printFaultTreeDiagram();
         
         // Step 5. Display 
         Output output = new Output();
