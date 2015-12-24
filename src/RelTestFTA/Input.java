@@ -112,9 +112,9 @@ public class Input {
         //Iterating through the nodes and extracting the data.
         
         NodeList nodeList = document.getDocumentElement().getChildNodes();
-        //System.out.println(nodeList.getLength());
+
         for (int i = 0; i < nodeList.getLength(); i++) {
-            //We have encountered an <employee> tag.
+
             Node node = nodeList.item(i);
             if (node instanceof Element) {
                 NodeList childNodes = node.getChildNodes();
