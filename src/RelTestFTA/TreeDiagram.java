@@ -3,11 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
+package RelTestFTA;
 import java.util.ArrayList;
 /**
- *
- * @author Z510
+ * Class Name  : TreeDiagram 
+ * Parameter   : input  - list of testcases
+ * Description : generate Success Tree diagram and Fault Tree Diagram from input
+ *               which is testcases
+ *               
+ * Output      : SuccessTreeDiagram and FaultTreeDiagram
  */
 public class TreeDiagram {
     private ArrayList <TestCase> testcases = new ArrayList<TestCase> ();
@@ -19,6 +23,12 @@ public class TreeDiagram {
         generateTreeDiagram(true);
         generateTreeDiagram(false);
     }
+    /**
+     * Method Name : generateTreeDiagram 
+     * Parameter   : buildSuccess -  indicate diagram to build, true = successTreeDiagram
+     * Description : Populate diagram      
+     * Output      : populated diagram   
+     */
     public void generateTreeDiagram (boolean buildSuccess){
         TreeModel diagram = new TreeModel();
         int numOfValidPath = 0;
@@ -59,6 +69,12 @@ public class TreeDiagram {
         successTreeDiagram = optimizeTree(successTreeDiagram);
         faultTreeDiagram = optimizeTree(faultTreeDiagram);
     }
+    /**
+     * Method Name : printSuccessTreeDiagram 
+     * Parameter   : None
+     * Description : print success tree diagram information      
+     * Output      : print data  
+     */
     public void printSuccessTreeDiagram(){
         System.out.println("STD name = "+ successTreeDiagram.name);
         System.out.println("STD op = "+ successTreeDiagram.operation);
@@ -67,6 +83,12 @@ public class TreeDiagram {
         
         System.out.println("---------------------------------------");
     }
+    /**
+     * Method Name : printFaultTreeDiagram 
+     * Parameter   : None
+     * Description : print fault tree diagram information      
+     * Output      : print data  
+     */
     public void printFaultTreeDiagram(){
         System.out.println("FTD name = "+ faultTreeDiagram.name);
         System.out.println("FTD op = "+ faultTreeDiagram.operation);
@@ -75,6 +97,12 @@ public class TreeDiagram {
         
         System.out.println("---------------------------------------");
     }
+    /**
+     * Method Name : recur_tree 
+     * Parameter   : Tree
+     * Description : recursive method to print out the condition of STD and FTD    
+     * Output      : print data  
+     */
     private void recur_tree(ArrayList <TreeModel> trees){
         String backup = space;
         space += space;
@@ -85,6 +113,12 @@ public class TreeDiagram {
         }
         space = backup;
     }
+    /**
+     * Method Name : optimizeTree 
+     * Parameter   : Tree
+     * Description : recursive method to remove redundant tree   
+     * Output      : filtered tree  
+     */
     private TreeModel optimizeTree(TreeModel inputTree){
         if (inputTree.tree.size() == 1 && inputTree.tree.get(0).tree.isEmpty() == false){
             ArrayList <TreeModel> toMoveTree = inputTree.tree.get(0).tree;

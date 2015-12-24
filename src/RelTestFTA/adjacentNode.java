@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
-import java.util.ArrayList;
+package RelTestFTA;
 
 /**
  *
  * @author Z510
  */
-public class TreeModel {
+public class adjacentNode {
+    int index;
+    String id;
     String name;
-    String operation;
-    ArrayList <TreeModel> tree = new ArrayList <TreeModel>();
+    String condition;
+    boolean valid;
 }

@@ -3,14 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
+package RelTestFTA;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
- * @author Z510
+ * Class Name  : CCTM 
+ * Parameter   : umlNodes - list of umlNodes from Input class
+ * 
+ * Description : This class is designed to create CCTM for every decision node
+ *               
+ * Output      : CCTM - Condition Model for every decision node
  */
 public class CCTM {
     ArrayList<umlNode> umlNodes;
@@ -19,6 +23,12 @@ public class CCTM {
         umlNodes = node;
         createCCTM();
     }
+    /**
+     * Method Name : createCCTM 
+     * Parameter   : None
+     * Description : walk thru each decision node and create CCTM       
+     * Output      : populated ConditionModels 
+     */
     private void createCCTM() {
         for (umlNode node : umlNodes){
             if (node.decisionNode){
@@ -37,6 +47,12 @@ public class CCTM {
             }
         }
     }
+    /**
+     * Method Name : printCCTMs 
+     * Parameter   : None
+     * Description : print out CCTM list info      
+     * Output      : print data
+     */
     public void printCCTMs() {
         for (ConditionModel model : ConditionModels){
             System.out.println("CCTM "+ ConditionModels.indexOf(model)+" name = " + model.name);

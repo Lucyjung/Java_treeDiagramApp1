@@ -3,13 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
+package RelTestFTA;
 
 import java.util.ArrayList;
 
 /**
- *
- * @author Z510
+ * Class Name  : TestCaseTable 
+ * Parameter   : umlNodes - list of umlNodes from Input class
+ *             : finalNode - final umlNode
+ * Description : create test case table for each condition
+ *               
+ * Output      : list of testcases
  */
 public class TestCaseTable {
     private ArrayList<TestCase> testcases = new ArrayList<TestCase>();
@@ -22,9 +26,23 @@ public class TestCaseTable {
         umlNodes = nodes;
         generateTestCaseTable(nodes,finalNode);
     }
+    /**
+     * Method Name : getTestCaseTable 
+     * Parameter   : None
+     * Description : return populated testcases      
+     * Output      : populated testcases   
+     */
     public ArrayList<TestCase> getTestCaseTable(){
         return testcases;
     }
+    /**
+     * Method Name : generateTestCaseTable 
+     * Parameter   : umlNodes - list of umlNodes from Input class
+     *             : finalNode - final umlNode
+     * Description : recursive walk thru every possible paths.
+     *               Also, create CCTM and connect to the matched condition
+     * Output      : populated testcases   
+     */
     private void generateTestCaseTable(ArrayList<umlNode> nodes, umlNode finalNode){
         
         processedSource = 0;
@@ -33,14 +51,23 @@ public class TestCaseTable {
             umlNode startNode = nodes.get(goal.index);
             do {
                 workToDo = false;
-                getDraftTestCase_recursive(startNode,startNode.validPath);
+                getDraftTestCase_recursive(startNode);
                 temp.valid = startNode.validPath;
                 testcases.add(temp);
                 temp = new TestCase();
             }while (workToDo);
         }
     }
-    private boolean getDraftTestCase_recursive(umlNode node, boolean flag){
+    /**
+     * Method Name : getDraftTestCase_recursive 
+     * Parameter   : umlNode - start node to find the path to initial node
+     *     
+     * Description : Given node, this function will recursively walk until initial node 
+     *               and return back to the caller with WorkToDo flag
+     * Output      : workToDo - if set, mean caller is required to call one more time
+     *             : multisource - flag to indicate multi source for given node
+     */
+    private boolean getDraftTestCase_recursive(umlNode node){
         
         boolean mutlisource = false;
         int skipped = 0;
@@ -60,10 +87,17 @@ public class TestCaseTable {
             umlNode next  = umlNodes.get(source.index);
 
             connectCondition(next,source);
-            mutlisource = getDraftTestCase_recursive(next,flag);
+            mutlisource = getDraftTestCase_recursive(next);
         }
         return true;
     }
+    /**
+     * Method Name : printTestCases
+     * Parameter   : None
+     *     
+     * Description : print out testcases information
+     * Output      : print data
+     */
     public void printTestCases() {
         for (TestCase testcase : testcases){
             System.out.println("Tesecase "+ testcases.indexOf(testcase));
@@ -80,6 +114,15 @@ public class TestCaseTable {
         }
 
     }
+    /**
+     * Method Name : connectCondition
+     * Parameter   : node - node to get the source name and id
+     *             : source - source information for populate the condition
+     *     
+     * Description : for decision node, need to populate CCTM with connected condition
+     *             : 
+     * Output      : temp - testCase to be added in global array, testcases
+     */
     private void connectCondition (umlNode node,adjacentNode source){
         if (node.decisionNode == true){
             ArrayList<ConditionModel> ConditionModel = new ArrayList<ConditionModel> ();

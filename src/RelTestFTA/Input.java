@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
+package RelTestFTA;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -19,8 +19,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import java.util.ArrayList;
 /**
- *
- * @author Z510
+ * Class Name  : Input 
+ * Parameter   : filename - file name of xmi file 
+ *             : goal     - name for valid goal
+ * Description : This class is designed to parse xmi file and determine valid path
+ *               
+ * Output      : umlNodes - List of umlNode 
  */
 public class Input {
     private final ArrayList<XmiNode> xmiNodes = new ArrayList<XmiNode> ();
@@ -41,6 +45,12 @@ public class Input {
             Logger.getLogger(Input.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    /**
+     * Method Name : printUmlNodesArray 
+     * Parameter   : None
+     * Description : print out umlNodes information for debugging purpose       
+     * Output      : print data 
+     */
     public void printUmlNodesArray(){
         for (umlNode node_info : umlNodes) {
             System.out.println("Node "+ umlNodes.indexOf(node_info)+" name = " + node_info.name);
@@ -64,9 +74,21 @@ public class Input {
             System.out.println("---------------------------------------");
         }
     }
+    /**
+     * Method Name : getUmlNodes 
+     * Parameter   : None
+     * Description : return umlNodes       
+     * Output      : populated umlNodes 
+     */
     public ArrayList<umlNode> getUmlNodes(){
         return umlNodes;
     }
+    /**
+     * Method Name : openXml 
+     * Parameter   : filename
+     * Description : parse xmi file to variable xmiNode      
+     * Output      : xmiNodes 
+     */
     private void openXml(String filename) throws IOException {
 
         DocumentBuilderFactory factory =  DocumentBuilderFactory.newInstance();
@@ -76,7 +98,7 @@ public class Input {
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(JavaTest1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RelTestFTA.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         //Load and Parse the XML document
@@ -85,7 +107,7 @@ public class Input {
         try {
             document = builder.parse(ClassLoader.getSystemResourceAsStream(filename));
         } catch (SAXException ex) {
-            Logger.getLogger(JavaTest1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RelTestFTA.class.getName()).log(Level.SEVERE, null, ex);
         }
         //Iterating through the nodes and extracting the data.
         
@@ -110,6 +132,12 @@ public class Input {
             }
         }        
     }
+    /**
+     * Method Name : printXmiElement 
+     * Parameter   : Node
+     * Description : for debug, print out xmi info      
+     * Output      : print data 
+     */
     private static void printXmiElement (Node node){
         NamedNodeMap attr = node.getAttributes();
         for (int j = 0; j < attr.getLength(); j++) {
@@ -117,7 +145,12 @@ public class Input {
             System.out.println("Node Value= " + attr.item(j).getNodeValue());
         }
     }
-    
+    /**
+     * Method Name : searchTargetNode 
+     * Parameter   : target_id - node target id
+     * Description : recursive walk thru xmiNodes to find the target id     
+     * Output      : xmiNode of target id
+     */
     private XmiNode searchTargetNode(String target_id){
         XmiNode targetNode = null;
         for (XmiNode node : xmiNodes){
@@ -136,6 +169,12 @@ public class Input {
         }
         return targetNode;
     }
+    /**
+     * Method Name : searchTargetNodes 
+     * Parameter   : XmiNode - input Node to find target node info 
+     * Description : Given xmi node, return list of target xmi node    
+     * Output      : target xmi node
+     */
     private ArrayList<XmiNode> searchTargetNodes(XmiNode inputNode){
         ArrayList<XmiNode>  targetsNode = new ArrayList<XmiNode> ();
         for (String target_id : inputNode.targets){
@@ -148,6 +187,12 @@ public class Input {
         }
         return targetsNode;
     }
+    /**
+     * Method Name : populateSourceAndTargetNode 
+     * Parameter   : None
+     * Description : populate source and target node for all node type    
+     * Output      : umlNodes
+     */
     private void populateSourceAndTargetNode(){
         XmiNode firstNode = xmiNodes.get(0);
       
@@ -183,6 +228,12 @@ public class Input {
         }
         populated = true;
     }
+     /**
+     * Method Name : searchSourceNode 
+     * Parameter   : target_id - node target id
+     * Description : recursive walk thru xmiNodes to find the target id     
+     * Output      : xmiNode of target id
+     */
     private XmiNode searchSourceNode(String target_id){
         XmiNode targetNode = null;
         for (XmiNode node : xmiNodes){
@@ -201,6 +252,12 @@ public class Input {
         }
         return targetNode;
     }
+    /**
+     * Method Name : searchSourceNodes 
+     * Parameter   : XmiNode - input Node to find source node info 
+     * Description : Given xmi node, return list of source xmi node    
+     * Output      : source xmi node
+     */
     private ArrayList<XmiNode> searchSourceNodes(XmiNode inputNode){
         ArrayList<XmiNode>  targetsNode = new ArrayList<XmiNode> ();
 
@@ -223,6 +280,12 @@ public class Input {
         }
         return temp_condition.remove(0);
     }
+    /**
+     * Method Name : sortAndIndexUmlNode 
+     * Parameter   : None
+     * Description : sort the initial node and link node with node index   
+     * Output      : sorted and indexed umlNodes
+     */
     private void sortAndIndexUmlNode(){
         ArrayList<umlNode> temp = umlNodes;
         
@@ -252,6 +315,12 @@ public class Input {
         umlNodes = temp;
         sorted = true;
     }
+    /**
+     * Method Name : searchUmlNodebyIdOrName 
+     * Parameter   : id or name
+     * Description : walk thru umlNodes and return node if matched id or name  
+     * Output      : matched umlNode
+     */
     public umlNode searchUmlNodebyIdOrName(String id){
         for (umlNode node_info : umlNodes){
             if (id.equals(node_info.id) || id.equals(node_info.name)){
@@ -260,6 +329,12 @@ public class Input {
         }
         return null;
     }
+    /**
+     * Method Name : getFinalNode 
+     * Parameter   : None
+     * Description : return a final umlNode  
+     * Output      : final umlNode 
+     */
     public umlNode getFinalNode(){
         for (umlNode node_info : umlNodes){
             if (node_info.lastNode){
@@ -268,6 +343,12 @@ public class Input {
         }
         return null;
     }
+    /**
+     * Method Name : getFirstNode 
+     * Parameter   : None
+     * Description : return a first umlNode  
+     * Output      : first umlNode 
+     */
     public umlNode getFirstNode(){
         for (umlNode node_info : umlNodes){
             if (node_info.firstNode){
@@ -276,10 +357,22 @@ public class Input {
         }
         return null;
     }
+    /**
+     * Method Name : getNodeByIndex 
+     * Parameter   : index
+     * Description : Given index, return a matched umlNode
+     * Output      : matched umlNode 
+     */
     public umlNode getNodeByIndex(int index){
         
         return umlNodes.get(index);
     }
+    /**
+     * Method Name : buildValidUmlNodesArrayByNameOrId 
+     * Parameter   : goal - require to be valid goal string
+     * Description : build valid flag for each node 
+     * Output      : flagged umlNodes 
+     */
     private void buildValidUmlNodesArrayByNameOrId(String id) throws Exception{
         if (sorted == true && populated == true){
             
@@ -298,6 +391,12 @@ public class Input {
             recur_validateTargetNode(node);
         }
     }
+    /**
+     * Method Name : recur_validateSourceAndSelfNode 
+     * Parameter   : node
+     * Description : recursive walk each node and populate valid flag
+     * Output      : none 
+     */
     private void recur_validateSourceAndSelfNode(umlNode node){
         node.validPath = true;
         umlNodes.set(umlNodes.indexOf(node),node);  
@@ -312,6 +411,12 @@ public class Input {
         
         }
     }
+    /**
+     * Method Name : recur_validateTargetNode 
+     * Parameter   : node
+     * Description : recursive walk each node and populate valid flag
+     * Output      : none 
+     */
     private void recur_validateTargetNode(umlNode node){  
         for(adjacentNode target : node.targets){
             umlNode next = umlNodes.get(target.index);

@@ -3,14 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javatest1;
+package RelTestFTA;
 import java.util.ArrayList;
 /**
  *
  * @author Z510
  */
-public class ConditionModel {
+public class umlNode {
     String name;
     String id;
-    ArrayList<Condition> Conditions = new ArrayList<Condition> ();
+    boolean decisionNode;
+    boolean firstNode;
+    boolean lastNode;
+    boolean validPath;
+    ArrayList<adjacentNode> targets = new ArrayList<adjacentNode>() ;
+    ArrayList<adjacentNode> sources = new ArrayList<adjacentNode>() ;
 }
