@@ -32,11 +32,10 @@ public class JavaTest1 {
         // Step 3. create test case table
         TestCaseTable testCase = new TestCaseTable(nodes,input.getFinalNode());
         ArrayList<TestCase> testcases = testCase.getTestCaseTable();
-        testCase.printTestCases();
+        //testCase.printTestCases();
         // Step 4. create tree diagram 
         TreeDiagram tree = new TreeDiagram(testcases);
-//        tree.generateTreeDiagram(true);
-//        tree.generateTreeDiagram(false);
+
         tree.printSuccessTreeDiagram();
         tree.printFaultTreeDiagram();
         
