@@ -18,10 +18,11 @@ public class TreeDiagram {
     private TreeModel successTreeDiagram = new TreeModel ();
     private TreeModel faultTreeDiagram = new TreeModel ();
     private String    space = "  "; 
-    public TreeDiagram (ArrayList <TestCase> input){
+    private int globalIndex = 0;
+    public TreeDiagram (ArrayList <TestCase> input, String validGoal, String invalidGoal){
         testcases = input;
-        generateTreeDiagram(true);
-        generateTreeDiagram(false);
+        generateTreeDiagram(true,validGoal);
+        generateTreeDiagram(false,invalidGoal);
     }
     /**
      * Method Name : generateTreeDiagram 
@@ -29,12 +30,13 @@ public class TreeDiagram {
      * Description : Populate diagram      
      * Output      : populated diagram   
      */
-    public void generateTreeDiagram (boolean buildSuccess){
+    public void generateTreeDiagram (boolean buildSuccess, String goal){
         TreeModel diagram = new TreeModel();
         int numOfValidPath = 0;
         for (TestCase testcase : testcases){
             if (testcase.valid)numOfValidPath++;
         }
+        diagram.name = goal;
         diagram.operation = (buildSuccess && (numOfValidPath == 1)) ? "AND":"OR";
         for (TestCase testcase : testcases){
             TreeModel testCaseTree = new TreeModel ();
@@ -48,6 +50,8 @@ public class TreeDiagram {
                 if (testcases.size() > 1) // There are more than one test case
                 {
                     testCaseTree.operation = (buildSuccess && (testcases.size() == 1)) ? "OR":"AND";
+                    testCaseTree.name = testCaseTree.operation + globalIndex;
+                    globalIndex++;
                     diagram.tree.add(testCaseTree);
                 }
                 else {
@@ -96,6 +100,24 @@ public class TreeDiagram {
         recur_tree(faultTreeDiagram.tree);
         
         System.out.println("---------------------------------------");
+    }
+    /**
+     * Method Name : getSuccessTreeDiagram 
+     * Parameter   : None
+     * Description : get success tree diagram      
+     * Output      : success Tree Diagram 
+     */
+    public TreeModel getSuccessTreeDiagram(){
+        return successTreeDiagram;
+    }
+    /**
+     * Method Name : getFaultTreeDiagram 
+     * Parameter   : None
+     * Description : get fault tree diagram      
+     * Output      : fault tree diagram  
+     */
+    public TreeModel getFaultTreeDiagram(){
+        return faultTreeDiagram;
     }
     /**
      * Method Name : recur_tree 

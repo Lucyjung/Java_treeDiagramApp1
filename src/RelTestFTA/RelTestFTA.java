@@ -6,6 +6,7 @@
 package RelTestFTA;
 import java.io.IOException; 
 import java.util.ArrayList;
+import javax.swing.JFrame;
 /**
  * Class Name  : RelTestFTA 
  * Parameter   : None
@@ -22,9 +23,9 @@ public class RelTestFTA {
     /**
      * @param args the command line arguments
      */
-
     public static void main(String[] args) throws IOException {
-        
+        int  panelWidth = 600;
+        int  panelHight = 600;
         // *******************************************************************
         //Step 1. Load input 
         String validGoal = "Accept transaction";
@@ -50,15 +51,21 @@ public class RelTestFTA {
 
         // *******************************************************************
         // Step 4. create tree diagram 
-        TreeDiagram tree = new TreeDiagram(testcases);
+        TreeDiagram tree = new TreeDiagram(testcases,validGoal, "fault state");
 
         tree.printSuccessTreeDiagram();
         tree.printFaultTreeDiagram();
         
+        TreeModel STD = tree.getSuccessTreeDiagram();
+        TreeModel FTD = tree.getFaultTreeDiagram();
         // *******************************************************************
         // Step 5. Display 
         Output output = new Output();
-        output.display("TODO");
+        output.initGui(panelWidth,panelHight);
+        output.drawDiagram(STD);
+        output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        output.setSize(panelWidth, panelHight);
+        output.setVisible(true);
 
     }
 }
