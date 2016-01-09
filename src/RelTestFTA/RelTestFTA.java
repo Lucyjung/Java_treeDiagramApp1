@@ -24,8 +24,8 @@ public class RelTestFTA {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        int  panelWidth = 600;
-        int  panelHight = 600;
+        int  panelWidth = 800;
+        int  panelHeight = 600;
         // *******************************************************************
         //Step 1. Load input 
         //String validGoal = "Accept transaction";
@@ -40,6 +40,7 @@ public class RelTestFTA {
         // Step 2. Create CCTM for every decision point 
         CCTM cctm = new CCTM(nodes);
         //cctm.printCCTMs();
+        ArrayList<ConditionModel> ConditionModels = cctm.getCCTM();
         
 
         // *******************************************************************
@@ -53,18 +54,19 @@ public class RelTestFTA {
         // Step 4. create tree diagram 
         TreeDiagram tree = new TreeDiagram(testcases,validGoal, "fault state");
 
-        tree.printSuccessTreeDiagram();
-        tree.printFaultTreeDiagram();
+        //tree.printSuccessTreeDiagram();
+        //tree.printFaultTreeDiagram();
         
         TreeModel STD = tree.getSuccessTreeDiagram();
         TreeModel FTD = tree.getFaultTreeDiagram();
         // *******************************************************************
         // Step 5. Display 
         Output output = new Output();
-        output.initGui(panelWidth,panelHight);
-        output.drawDiagram(FTD);
+        output.initGui(panelWidth,panelHeight);
+        //output.drawDiagram(FTD);
+        output.drawCCTM(testcases,ConditionModels);
         output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        output.setSize(panelWidth, panelHight);
+        output.setSize(panelWidth, panelHeight);
         output.setVisible(true);
 
     }

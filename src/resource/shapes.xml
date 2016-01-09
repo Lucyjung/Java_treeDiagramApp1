@@ -272,6 +272,20 @@
 		<fontstyle style="1"/>
 	</foreground>
 </shape>
+	<shape name="hline" aspect="variable" strokewidth="1">
+		<background>
+			<path>
+				<move x="0" y="0"/>
+				<close/>
+			</path>
+		</background>
+		<foreground>
+			<fillstroke/>
+			<image src="hline.png" x="0" y="0" w="100" h="100" flipH="0"/>
+			<fontcolor color="#ffffff"/>
+			<fontstyle style="1"/>
+		</foreground>
+	</shape>
 <shape name="or_bak" aspect="variable" strokewidth="1">
 	<background>
 		<path>

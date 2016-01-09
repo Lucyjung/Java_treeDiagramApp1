@@ -48,9 +48,9 @@ public class CCTM {
         }
     }
     /**
-     * Method Name : printCCTMs 
+     * Method Name : printCCTMs
      * Parameter   : None
-     * Description : print out CCTM list info      
+     * Description : print out CCTM list info
      * Output      : print data
      */
     public void printCCTMs() {
@@ -63,5 +63,8 @@ public class CCTM {
             }
             System.out.println("---------------------------------------");
         }
+    }
+    public ArrayList<ConditionModel> getCCTM(){
+        return ConditionModels;
     }
 }
