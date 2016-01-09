@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="RelTestFTA">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/RelTestFTA.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

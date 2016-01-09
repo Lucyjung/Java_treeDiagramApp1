@@ -28,10 +28,10 @@ public class RelTestFTA {
         int  panelHight = 600;
         // *******************************************************************
         //Step 1. Load input 
-        String validGoal = "Accept transaction";
-        Input input = new Input("xml/testxmi2.xml",validGoal);
-        //String validGoal = "Accept Transection";
-        //Input input = new Input("xml/firstuml.xml",validGoal);
+        //String validGoal = "Accept transaction";
+        //Input input = new Input("xml/testxmi2.xml",validGoal);
+        String validGoal = "Accept Transection";
+        Input input = new Input("xml/firstuml.xml",validGoal);
         
         ArrayList<umlNode> nodes= input.getUmlNodes();
         //input.printUmlNodesArray();
@@ -62,7 +62,7 @@ public class RelTestFTA {
         // Step 5. Display 
         Output output = new Output();
         output.initGui(panelWidth,panelHight);
-        output.drawDiagram(STD);
+        output.drawDiagram(FTD);
         output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         output.setSize(panelWidth, panelHight);
         output.setVisible(true);
