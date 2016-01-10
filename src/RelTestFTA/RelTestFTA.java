@@ -47,7 +47,7 @@ public class RelTestFTA {
         // Step 3. create test case table
         TestCaseTable testCase = new TestCaseTable(nodes,input.getFinalNode());
         ArrayList<TestCase> testcases = testCase.getTestCaseTable();
-        //testCase.printTestCases();
+        testCase.printTestCases();
         
 
         // *******************************************************************

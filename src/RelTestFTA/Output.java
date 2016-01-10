@@ -7,6 +7,9 @@ package RelTestFTA;
 
 import java.awt.Image;
 import javax.swing.JFrame;
+
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxStylesheet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,6 +25,9 @@ import com.mxgraph.util.mxXmlUtils;
 import com.mxgraph.view.mxGraph;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Objects;
+
 /**
  *
  * @author Z510
@@ -32,6 +38,8 @@ public class Output extends JFrame {
     protected static HashMap m = new HashMap();
     protected static HashMap xPos = new HashMap();
     protected static HashMap yPos = new HashMap();
+    protected static HashMap xPosLine = new HashMap();
+    protected static HashMap yPosTestCase = new HashMap();
     private final String undefinedName = "noname";
     int  panelWidth;
     int panelHeight;
@@ -46,12 +54,17 @@ public class Output extends JFrame {
     final int CCTMGapX = 20;
 
     // TestCase configuration
-    final int TestCaseWidth = 600;
-    final int TestCaseHight = 50;
+    final int TestCaseWidth = 800;
+    final int TestCaseHeight = 50;
     final int TestCaseOriginX = 60;
     final int TestCaseOriginY = 200;
     final int TestCaseGapY = 20;
     final int TestCaseGapX = 20;
+
+    // Condition Line configuration
+    int ConditionLineWidth = 10; // min 10
+    int ConditionLineHeight = 550;
+
 
     public Output (){
         super("Tree Diagram");   
@@ -62,6 +75,17 @@ public class Output extends JFrame {
         {
             panelWidth = w;
             panelHeight = h;
+
+            // create rounded for dot connection
+            mxStylesheet stylesheet = graph.getStylesheet();
+            Hashtable<String, Object> style = new Hashtable<String, Object>();
+            style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
+            style.put(mxConstants.STYLE_OPACITY, 100);
+            style.put(mxConstants.STYLE_FILLCOLOR,"#000000");
+            style.put(mxConstants.STYLE_FONTCOLOR, "#774400");
+            style.put(mxConstants.STYLE_EDITABLE, false);
+            stylesheet.putCellStyle("ROUNDED", style);
+
             String filename = Output.class.getResource(
                             "/resource/shapes.xml").getPath();
             Document doc = mxXmlUtils.parseXml(mxUtils.readFile(filename));
@@ -134,8 +158,18 @@ public class Output extends JFrame {
             i++;
         }
     }
-    public static HashMap getM() {
+    private static HashMap getM() {
         return m;
+    }
+    private static int getxPosLine(String key) {
+        String value = xPosLine.get(key).toString();
+        int x = Integer.parseInt(value);
+        return x;
+    }
+    private static int getyPosTestCase(String key) {
+        String value = yPosTestCase.get(key).toString();
+        int y = Integer.parseInt( value);
+        return y;
     }
     private void addDiagram(String name, String operation, int lvl, int order){
         graph.getModel().beginUpdate();
@@ -245,7 +279,7 @@ public class Output extends JFrame {
         }else{
             if (c.getSimpleName().equals("TestCase")) {
                 lastYPos = Integer.parseInt((String) obj);
-                newYPos = lastYPos + TestCaseHight + TestCaseGapY;
+                newYPos = lastYPos + TestCaseHeight + TestCaseGapY;
             }
         }
 
@@ -273,6 +307,9 @@ public class Output extends JFrame {
         }
 
         // Link the dots
+        for (TestCase testCase: TestCases){
+            drawTestCaseLink(testCase, TestCases.indexOf(testCase));
+        }
 
         mxGraphComponent graphComponent = new mxGraphComponent(graph)
         {
@@ -298,9 +335,23 @@ public class Output extends JFrame {
             Object v = graph.insertVertex(parent, null, model.name, getXPos(0,ConditionModel.class) + Offset0, CCTMOriginY, CCTMWidth, CCTMHeight);
             this.getM().put(model.name, v);
             for (Condition condition : model.Conditions){
-                Object v1 = graph.insertVertex(parent, null, condition.name, getXPos(1, ConditionModel.class), CCTMOriginY + CCTMHeight + CCTMGapY, CCTMWidth, CCTMHeight);
+                int xPosition =  getXPos(1, ConditionModel.class);
+                int yPosition = CCTMOriginY + CCTMHeight + CCTMGapY;
+                Object v1 = graph.insertVertex(parent, null, condition.name,
+                        xPosition,
+                        yPosition,
+                        CCTMWidth,
+                        CCTMHeight);
                 this.getM().put(condition.name, v1);
                 addLine(model.name,condition.name,"none");
+                Object v2 = graph.insertVertex(parent, null, null,
+                        xPosition + CCTMWidth/2,
+                        yPosition + CCTMHeight,
+                        ConditionLineWidth,
+                        ConditionLineHeight,
+                        "shape=vline");
+                String hashName = model.name+ "." + condition.name;
+                this.xPosLine.put(hashName, xPosition + CCTMWidth / 2);
                 processedCondition++;
             }
         }
@@ -314,14 +365,41 @@ public class Output extends JFrame {
         try
         {
             String name = "testcase " + index;
-            Object v = graph.insertVertex(parent, null,null ,
+            int yPosistion = TestCaseOriginY + (index * (TestCaseGapY + TestCaseHeight));
+            Object v = graph.insertVertex(parent, null,name ,
                     TestCaseOriginX,
-                    TestCaseOriginY + (index * (TestCaseGapY + TestCaseHight)),
+                    yPosistion,
                     TestCaseWidth,
-                    TestCaseHight,
+                    TestCaseHeight,
                     "shape=hline");
             this.getM().put(name, v);
+            this.yPosTestCase.put(name, yPosistion);
 
+        }
+        finally
+        {
+            graph.getModel().endUpdate();
+        }
+    }
+    private void drawTestCaseLink(TestCase testCase, int index){
+        ArrayList <ConditionModel> ConditionModels = testCase.ConditionModels;
+        String name = "testcase " + index;
+        graph.getModel().beginUpdate();
+        try
+        {
+            for (ConditionModel conditionModel : ConditionModels){
+                for (Condition condition : conditionModel.Conditions){
+                    String hashName = conditionModel.name+ "." + condition.name;
+                    int x = getxPosLine(hashName);
+                    int y = getyPosTestCase(name);
+                    Object v = graph.insertVertex(parent, null,null ,
+                            x - 5,
+                            y - 5,
+                            10,
+                            10,
+                            "ROUNDED");
+                }
+            }
         }
         finally
         {
