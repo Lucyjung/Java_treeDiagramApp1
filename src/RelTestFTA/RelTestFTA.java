@@ -27,11 +27,12 @@ public class RelTestFTA {
         int  panelWidth = 800;
         int  panelHeight = 600;
         // *******************************************************************
-        //Step 1. Load input 
-        //String validGoal = "Accept transaction";
-        //Input input = new Input("xml/testxmi2.xml",validGoal);
-        String validGoal = "Accept Transection";
-        Input input = new Input("xml/firstuml.xml",validGoal);
+        //Step 1. Load input
+        String invalidGoal = "Reject transaction";
+        String validGoal = "Accept transaction";
+        Input input = new Input("xml/testxmi2.xml",validGoal);
+        //String validGoal = "Accept Transection";
+        //Input input = new Input("xml/firstuml.xml",validGoal);
         
         ArrayList<umlNode> nodes= input.getUmlNodes();
         //input.printUmlNodesArray();
@@ -52,10 +53,10 @@ public class RelTestFTA {
 
         // *******************************************************************
         // Step 4. create tree diagram 
-        TreeDiagram tree = new TreeDiagram(testcases,validGoal, "fault state");
+        TreeDiagram tree = new TreeDiagram(testcases);
 
         //tree.printSuccessTreeDiagram();
-        //tree.printFaultTreeDiagram();
+        tree.printFaultTreeDiagram();
         
         TreeModel STD = tree.getSuccessTreeDiagram();
         TreeModel FTD = tree.getFaultTreeDiagram();
@@ -63,7 +64,8 @@ public class RelTestFTA {
         // Step 5. Display 
         Output output = new Output();
         output.initGui(panelWidth,panelHeight);
-        //output.drawDiagram(FTD);
+        //output.drawTreeDiagram(FTD,invalidGoal);
+        //output.drawTreeDiagram(STD,validGoal);
         output.drawCCTM(testcases,ConditionModels);
         output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         output.setSize(panelWidth, panelHeight);

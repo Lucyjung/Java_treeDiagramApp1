@@ -19,10 +19,10 @@ public class TreeDiagram {
     private TreeModel faultTreeDiagram = new TreeModel ();
     private String    space = "  "; 
     private int globalIndex = 0;
-    public TreeDiagram (ArrayList <TestCase> input, String validGoal, String invalidGoal){
+    public TreeDiagram (ArrayList <TestCase> input){
         testcases = input;
-        generateTreeDiagram(true,validGoal);
-        generateTreeDiagram(false,invalidGoal);
+        generateTreeDiagram(true);
+        generateTreeDiagram(false);
     }
     /**
      * Method Name : generateTreeDiagram 
@@ -30,14 +30,16 @@ public class TreeDiagram {
      * Description : Populate diagram      
      * Output      : populated diagram   
      */
-    public void generateTreeDiagram (boolean buildSuccess, String goal){
+    public void generateTreeDiagram (boolean buildSuccess){
         TreeModel diagram = new TreeModel();
         int numOfValidPath = 0;
         for (TestCase testcase : testcases){
             if (testcase.valid)numOfValidPath++;
         }
-        diagram.name = goal;
+
         diagram.operation = (buildSuccess && (numOfValidPath == 1)) ? "AND":"OR";
+        diagram.name = diagram.operation + globalIndex;
+        globalIndex++;
         for (TestCase testcase : testcases){
             TreeModel testCaseTree = new TreeModel ();
             if (testcase.valid == buildSuccess){
