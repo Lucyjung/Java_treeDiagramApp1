@@ -6,7 +6,7 @@
 package RelTestFTA.view;
 
 import java.awt.Image;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import RelTestFTA.config.ConstantsConfig;
 import RelTestFTA.model.Condition;
@@ -84,7 +84,7 @@ public class Output extends JFrame {
         super(name);
         initGui(w,h);
         this.setSize(w,h);
-        this.setDefaultCloseOperation(this.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     public void initGui(int w,int h){
@@ -112,7 +112,7 @@ public class Output extends JFrame {
                             ConstantsConfig.SHAPE_FILE_PATH).getPath();
             Document doc = mxXmlUtils.parseXml(mxUtils.readFile(filename));
 
-            Element shapes = (Element) doc.getDocumentElement();
+            Element shapes = doc.getDocumentElement();
             NodeList list = shapes.getElementsByTagName("shape");
 
             for (int i = 0; i < list.getLength(); i++)
@@ -169,11 +169,11 @@ public class Output extends JFrame {
         treeModel.setOperation(ConstantsConfig.NONE_OPERATION);
         treeModel.getTree().add(diagram);
         // recursive next level
-        ArrayList<String> toLinkNames = recur_tree(treeModel,topEventGateName,lvl);
+        ArrayList<String> toLinkNames = recur_tree(treeModel,lvl);
         // cal xpos
         Integer min = MaxWidth,max = 0;
         for(String linkName : toLinkNames){
-            mxCell childCell = (mxCell) this.getM().get(linkName);
+            mxCell childCell = (mxCell) getM().get(linkName);
             int x = (int)childCell.getGeometry().getPoint().getX();
             int y = (int)childCell.getGeometry().getPoint().getY();
             min = Integer.min(min,x);
@@ -200,11 +200,10 @@ public class Output extends JFrame {
         getContentPane().add(graphComponent);
     }
 
-    private ArrayList<String> recur_tree(TreeModel trees, String parent_name, int lvl){
-        int i = 0;
+    private ArrayList<String> recur_tree(TreeModel trees, int lvl){
         ArrayList<String> childNames = new ArrayList<String>();
         for (TreeModel tree : trees.getTree()){
-            ArrayList<String> toLinkNames = recur_tree(tree,tree.getName(), lvl+1);
+            ArrayList<String> toLinkNames = recur_tree(tree, lvl+1);
             childNames.add(tree.getName());
 
             if (toLinkNames.size() == 0){
@@ -215,7 +214,7 @@ public class Output extends JFrame {
                     // cal xpos
                     Integer min = MaxWidth,max = 0;
                     for(String linkName : toLinkNames){
-                        mxCell childCell = (mxCell) this.getM().get(linkName);
+                        mxCell childCell = (mxCell) getM().get(linkName);
                         int x = (int)childCell.getGeometry().getPoint().getX();
                         int y = (int)childCell.getGeometry().getPoint().getY();
                         min = Integer.min(min,x);
@@ -229,8 +228,6 @@ public class Output extends JFrame {
                     addLine(tree.getName(),linkName,ConstantsConfig.EDGE_NO_ARROW);
                 }
             }
-
-            i++;
         }
         return childNames;
     }
@@ -248,13 +245,11 @@ public class Output extends JFrame {
     }
     private static int getxPosLine(String key) {
         String value = xPosLine.get(key).toString();
-        int x = Integer.parseInt(value);
-        return x;
+        return Integer.parseInt(value);
     }
     private static int getyPosTestCase(String key) {
         String value = yPosTestCase.get(key).toString();
-        int y = Integer.parseInt( value);
-        return y;
+        return Integer.parseInt( value);
     }
     private int drawDiagram(String name, String operation, int lvl, int childCount, Integer forceXPos){
         Integer xPosition = 0;
@@ -300,11 +295,11 @@ public class Output extends JFrame {
             Object v = graph
                     .insertVertex(parent, id, label,
                             xPosition,
-                            getYPosition(lvl,TreeModel.class),
+                            getYPosition(lvl),
                             DiagramWidth,
                             DiagramHeight,
                             shape);
-            this.getM().put(name, v);
+            getM().put(name, v);
 
         }
         finally
@@ -416,7 +411,7 @@ public class Output extends JFrame {
         return newYPos;
     }
 
-    private int getYPosition(int lvl,Class c)
+    private int getYPosition(int lvl)
     {
         return lvl*(DiagramHeight+DiagramGapY) + DiagramOriginY;
     }
@@ -428,9 +423,7 @@ public class Output extends JFrame {
 
         // dynamic line
         int cctmCount = 0;
-        for (ConditionModel model : ConditionModels){
-            cctmCount += model.getConditions().size();
-        }
+        for (ConditionModel model : ConditionModels) cctmCount += model.getConditions().size();
         TestCaseWidth = (cctmCount+1)*(CCTMWidth+CCTMGapX);
         ConditionLineHeight = (TestCases.size()+1)*(TestCaseHeight+TestCaseGapY);
         for (ConditionModel model : ConditionModels){
@@ -439,7 +432,7 @@ public class Output extends JFrame {
 
         // draw Test Cases
         for (TestCase testCase: TestCases){
-            drawTestcases( TestCases.indexOf(testCase),testCase.isValid());
+            drawTestCase(TestCases.indexOf(testCase), testCase.isValid());
         }
 
         // Link the dots
@@ -474,7 +467,7 @@ public class Output extends JFrame {
                     CCTMWidth,
                     CCTMHeight,
                     ConstantsConfig.CCTM_FONT_SIZE_STYLE);
-            this.getM().put(model.getName(), v);
+            getM().put(model.getName(), v);
             for (Condition condition : model.getConditions()){
                 int xPosition =  getXPos(1, ConditionModel.class);
                 int yPosition = CCTMOriginY + CCTMHeight + CCTMGapY;
@@ -483,7 +476,7 @@ public class Output extends JFrame {
                         yPosition,
                         CCTMWidth,
                         CCTMHeight);
-                this.getM().put(condition.getName(), v1);
+                getM().put(condition.getName(), v1);
                 addLine(model.getName(),condition.getName(),ConstantsConfig.EDGE_NO_ARROW);
                 Object v2 = graph.insertVertex(parent, null, null,
                         xPosition + CCTMWidth/2,
@@ -492,7 +485,7 @@ public class Output extends JFrame {
                         ConditionLineHeight,
                         ConstantsConfig.SHAPE_VERTICAL_LINE);
                 String hashName = model.getName()+ "." + condition.getName();
-                this.xPosLine.put(hashName, xPosition + CCTMWidth / 2);
+                xPosLine.put(hashName, xPosition + CCTMWidth / 2);
                 processedCondition++;
             }
         }
@@ -501,7 +494,7 @@ public class Output extends JFrame {
             graph.getModel().endUpdate();
         }
     }
-    private void drawTestcases ( int index , boolean valid){
+    private void drawTestCase(int index, boolean valid){
         graph.getModel().beginUpdate();
         try
         {
@@ -519,8 +512,8 @@ public class Output extends JFrame {
                     TestCaseWidth,
                     TestCaseHeight,
                     shape);
-            this.getM().put(name, v);
-            this.yPosTestCase.put(name, yPosistion);
+            getM().put(name, v);
+            yPosTestCase.put(name, yPosistion);
         }
         finally
         {
