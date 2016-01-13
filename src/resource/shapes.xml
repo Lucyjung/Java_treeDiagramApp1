@@ -286,6 +286,34 @@
 		<fontstyle style="1"/>
 	</foreground>
 </shape>
+<shape name="hline_green" aspect="variable" strokewidth="1">
+	<background>
+		<path>
+			<move x="0" y="0"/>
+			<close/>
+		</path>
+	</background>
+	<foreground>
+		<fillstroke/>
+		<image src="hline_green.png" x="0" y="0" w="100" h="5" flipH="0"/>
+		<fontcolor color="#ffffff"/>
+		<fontstyle style="1"/>
+	</foreground>
+</shape>
+<shape name="hline_red" aspect="variable" strokewidth="1">
+	<background>
+		<path>
+			<move x="0" y="0"/>
+			<close/>
+		</path>
+	</background>
+	<foreground>
+		<fillstroke/>
+		<image src="hline_red.png" x="0" y="0" w="100" h="5" flipH="0"/>
+		<fontcolor color="#ffffff"/>
+		<fontstyle style="1"/>
+	</foreground>
+</shape>
 <shape name="vline" aspect="variable" strokewidth="1">
 	<background>
 		<path>
