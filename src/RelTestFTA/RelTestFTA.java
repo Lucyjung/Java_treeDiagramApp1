@@ -29,10 +29,10 @@ public class RelTestFTA {
         // *******************************************************************
         //Step 1. Load input
         String invalidGoal = "Reject transaction";
-        String validGoal = "Accept transaction";
-        Input input = new Input("xml/testxmi2.xml",validGoal);
-        //String validGoal = "Accept Transection";
-        //Input input = new Input("xml/firstuml.xml",validGoal);
+        //String validGoal = "Accept transaction";
+        //Input input = new Input("xml/testxmi2.xml",validGoal);
+        String validGoal = "Accept Transection";
+        Input input = new Input("xml/firstuml.xml",validGoal);
         
         ArrayList<umlNode> nodes= input.getUmlNodes();
         //input.printUmlNodesArray();
@@ -62,14 +62,28 @@ public class RelTestFTA {
         TreeModel FTD = tree.getFaultTreeDiagram();
         // *******************************************************************
         // Step 5. Display 
-        Output output = new Output();
-        output.initGui(panelWidth,panelHeight);
-        //output.drawTreeDiagram(FTD,invalidGoal);
-        //output.drawTreeDiagram(STD,validGoal);
-        output.drawCCTM(testcases,ConditionModels);
-        output.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        output.setSize(panelWidth, panelHeight);
-        output.setVisible(true);
+        Output output1 = new Output();
+        output1.initGui(panelWidth, panelHeight);
+        //output1.drawTreeDiagram(FTD,invalidGoal);
+        //output1.drawTreeDiagram(STD,validGoal);
+        output1.drawCCTM(testcases, ConditionModels);
+        output1.setDefaultCloseOperation(output1.HIDE_ON_CLOSE);
+        output1.setSize(panelWidth, panelHeight);
+        output1.setVisible(true);
+
+        Output output2 = new Output();
+        output2.initGui(panelWidth, panelHeight);
+        output2.drawTreeDiagram(FTD,invalidGoal);;
+        output2.setDefaultCloseOperation(output2.HIDE_ON_CLOSE);
+        output2.setSize(panelWidth, panelHeight);
+        output2.setVisible(true);
+
+        Output output3 = new Output();
+        output3.initGui(panelWidth, panelHeight);
+        output3.drawTreeDiagram(STD,validGoal);;
+        output3.setDefaultCloseOperation(output3.HIDE_ON_CLOSE);
+        output3.setSize(panelWidth, panelHeight);
+        output3.setVisible(true);
 
     }
 }

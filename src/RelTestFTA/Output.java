@@ -74,7 +74,7 @@ public class Output extends JFrame {
     final int DiagramHeight = 80;
     final int DiagramOriginX = 60;
     final int DiagramOriginY = 10;
-    final int DiagramGapY = 100;
+    final int DiagramGapY = 50;
     final int DiagramGapX = 20;
     final int MaxWidth = 99999;
     public Output (){
@@ -87,6 +87,11 @@ public class Output extends JFrame {
             panelWidth = w;
             panelHeight = h;
 
+            m = new HashMap();
+            xPos = new HashMap();
+            yPos = new HashMap();
+            xPosLine = new HashMap();
+            yPosTestCase = new HashMap();
             // create rounded for dot connection
             mxStylesheet stylesheet = graph.getStylesheet();
             Hashtable<String, Object> style = new Hashtable<String, Object>();
@@ -498,7 +503,7 @@ public class Output extends JFrame {
         {
             String name = "testcase " + index;
             int yPosistion = TestCaseOriginY + (index * (TestCaseGapY + TestCaseHeight));
-            Object v = graph.insertVertex(parent, null,name ,
+            Object v = graph.insertVertex(parent, null,null ,
                     TestCaseOriginX,
                     yPosistion,
                     TestCaseWidth,
