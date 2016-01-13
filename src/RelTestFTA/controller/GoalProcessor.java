@@ -1,7 +1,7 @@
 package RelTestFTA.controller;
 
-import RelTestFTA.model.adjacentNode;
-import RelTestFTA.model.umlNode;
+import RelTestFTA.model.AdjacentNode;
+import RelTestFTA.model.UmlNode;
 import RelTestFTA.view.Input;
 
 import java.io.IOException;
@@ -30,21 +30,21 @@ public class GoalProcessor{
         }
 
     }
-    public ArrayList<umlNode> getUmlNodes(){
+    public ArrayList<UmlNode> getUmlNodes(){
         return getInput().getUmlNodes();
     }
     /**
      * Method Name : buildValidUmlNodesArrayByNameOrId
      * Parameter   : goal - require to be valid goal string
      * Description : build valid flag for each node
-     * Output      : flagged umlNodes
+     * Output      : flagged UmlNodes
      */
     private void buildValidUmlNodesArrayByNameOrId(String id) throws Exception{
         if (getInput().isSorted() && (getInput().isPopulated())){
 
-            umlNode node = null;
-            umlNode finalNode = getInput().getFinalNode();
-            for (adjacentNode source : finalNode.getSources()){
+            UmlNode node = null;
+            UmlNode finalNode = getInput().getFinalNode();
+            for (AdjacentNode source : finalNode.getSources()){
                 if (source.getName().equals(id)){
                     node = getInput().getNodeByIndex(source.getIndex());
                 }
@@ -63,11 +63,11 @@ public class GoalProcessor{
      * Description : recursive walk each node and populate valid flag
      * Output      : none
      */
-    private void recur_validateSourceAndSelfNode(umlNode node){
+    private void recur_validateSourceAndSelfNode(UmlNode node){
         node.setValidPath(true);
         getInput().getUmlNodes().set(getInput().getUmlNodes().indexOf(node),node);
-        for(adjacentNode source : node.getSources()){
-            umlNode next = getInput().getUmlNodes().get(source.getIndex());
+        for(AdjacentNode source : node.getSources()){
+            UmlNode next = getInput().getUmlNodes().get(source.getIndex());
             source.setValid(true);
             node.getSources().set(node.getSources().indexOf(source), source);
             getInput().getUmlNodes().set(getInput().getUmlNodes().indexOf(node), node);
@@ -83,9 +83,9 @@ public class GoalProcessor{
      * Description : recursive walk each node and populate valid flag
      * Output      : none
      */
-    private void recur_validateTargetNode(umlNode node){
-        for(adjacentNode target : node.getTargets()){
-            umlNode next = getInput().getUmlNodes().get(target.getIndex());
+    private void recur_validateTargetNode(UmlNode node){
+        for(AdjacentNode target : node.getTargets()){
+            UmlNode next = getInput().getUmlNodes().get(target.getIndex());
             if (next.isValidPath()){
                 target.setValid(true);
                 node.getTargets().set(node.getTargets().indexOf(target), target);

@@ -16,9 +16,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import RelTestFTA.config.ConstantsConfig;
 import RelTestFTA.RelTestFTA;
+import RelTestFTA.model.UmlNode;
 import RelTestFTA.model.XmiNode;
-import RelTestFTA.model.adjacentNode;
-import RelTestFTA.model.umlNode;
+import RelTestFTA.model.AdjacentNode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -32,10 +32,10 @@ import java.util.ArrayList;
  *             : goal     - name for valid goal
  * Description : This class is designed to parse xmi file and determine valid path
  *               
- * Output      : umlNodes - List of umlNode 
+ * Output      : UmlNodes - List of UmlNode
  */
 public class Input {
-    ArrayList<umlNode> umlNodes = new ArrayList<umlNode>  ();
+    ArrayList<UmlNode> UmlNodes = new ArrayList<UmlNode>  ();
     ArrayList<String> goalList = new ArrayList<String>();
     String filePath;
     boolean sorted = false;
@@ -66,15 +66,15 @@ public class Input {
     /**
      * Method Name : printUmlNodesArray 
      * Parameter   : None
-     * Description : print out umlNodes information for debugging purpose       
+     * Description : print out UmlNodes information for debugging purpose
      * Output      : print data 
      */
     public void printUmlNodesArray(){
-        for (umlNode node_info : umlNodes) {
-            System.out.println("Node "+ umlNodes.indexOf(node_info)+" name = " + node_info.getName());
-            System.out.println("Node "+ umlNodes.indexOf(node_info)+" valid = " + node_info.isValidPath());
+        for (UmlNode node_info : UmlNodes) {
+            System.out.println("Node "+ UmlNodes.indexOf(node_info)+" name = " + node_info.getName());
+            System.out.println("Node "+ UmlNodes.indexOf(node_info)+" valid = " + node_info.isValidPath());
             int i =1;
-            for (adjacentNode source : node_info.getSources()){
+            for (AdjacentNode source : node_info.getSources()){
                 System.out.println("Source " + i + " index = " + source.getIndex());
                 System.out.println("Source " + i + " name = " + source.getName());
                 System.out.println("Source " + i + " condtion = " + source.getCondition());
@@ -82,7 +82,7 @@ public class Input {
                 i++;
             }
             i =1;
-            for (adjacentNode target : node_info.getTargets()){
+            for (AdjacentNode target : node_info.getTargets()){
                 System.out.println("Target " + i + " index = " + target.getIndex());
                 System.out.println("Target " + i + " name = " + target.getName());
                 System.out.println("Target " + i + " condtion = " + target.getCondition());
@@ -95,14 +95,14 @@ public class Input {
     /**
      * Method Name : getUmlNodes 
      * Parameter   : None
-     * Description : return umlNodes       
-     * Output      : populated umlNodes 
+     * Description : return UmlNodes
+     * Output      : populated UmlNodes
      */
-    public ArrayList<umlNode> getUmlNodes(){
-        return umlNodes;
+    public ArrayList<UmlNode> getUmlNodes(){
+        return UmlNodes;
     }
-    public void setUmlNodes(ArrayList<umlNode> umlNodes) {
-        this.umlNodes = umlNodes;
+    public void setUmlNodes(ArrayList<UmlNode> UmlNodes) {
+        this.UmlNodes = UmlNodes;
     }
     public boolean isPopulated() {
         return populated;
@@ -132,8 +132,8 @@ public class Input {
 
     public ArrayList<String> getGoalList() {
         setGoalList(new ArrayList<String>());
-        umlNode finalNode = getFinalNode();
-        for (adjacentNode source : finalNode.getSources()){
+        UmlNode finalNode = getFinalNode();
+        for (AdjacentNode source : finalNode.getSources()){
             goalList.add(source.getName());
             if (ConstantsConfig.PRINT_DEBUG_INFO) System.out.println("goal : "+source.getName());
         }
@@ -254,7 +254,7 @@ public class Input {
      * Method Name : populateSourceAndTargetNode 
      * Parameter   : None
      * Description : populate source and target node for all node type    
-     * Output      : umlNodes
+     * Output      : UmlNodes
      */
     protected void populateSourceAndTargetNode(){
 
@@ -263,7 +263,7 @@ public class Input {
                 
                 ArrayList<XmiNode> targets_nodes = searchTargetNodes(node);
                 
-                umlNode temp_umlInfo = new umlNode();
+                UmlNode temp_umlInfo = new UmlNode();
                 temp_umlInfo.setName(node.getName());
                 temp_umlInfo.setId(node.getId());
                 temp_umlInfo.setDecisionNode(node.isDecisionNode());
@@ -271,7 +271,7 @@ public class Input {
                 temp_umlInfo.setLastNode(node.isFinalNode());
 
                 for (XmiNode target_node : targets_nodes){
-                    adjacentNode target = new adjacentNode();
+                    AdjacentNode target = new AdjacentNode();
                     target.setName(target_node.getName());
                     target.setCondition(popCondition());
                     target.setId(target_node.getId());
@@ -279,13 +279,13 @@ public class Input {
                 }
                 ArrayList<XmiNode> sources_nodes = searchSourceNodes(node);
                 for (XmiNode source_node : sources_nodes){
-                    adjacentNode source = new adjacentNode();
+                    AdjacentNode source = new AdjacentNode();
                     source.setName(source_node.getName());
                     source.setCondition(popCondition());
                     source.setId(source_node.getId());
                     temp_umlInfo.getSources().add(source);
                 }
-                umlNodes.add(temp_umlInfo);
+                UmlNodes.add(temp_umlInfo);
             }
         }
         setPopulated(true);
@@ -346,27 +346,27 @@ public class Input {
      * Method Name : sortAndIndexUmlNode 
      * Parameter   : None
      * Description : sort the initial node and link node with node index   
-     * Output      : sorted and indexed umlNodes
+     * Output      : sorted and indexed UmlNodes
      */
     protected void sortAndIndexUmlNode(){
-        ArrayList<umlNode> temp = umlNodes;
+        ArrayList<UmlNode> temp = UmlNodes;
         
-        for (umlNode node_info : umlNodes){
+        for (UmlNode node_info : UmlNodes){
             if (node_info.isFirstNode()){
                 temp.remove(node_info);
                 temp.add(0,node_info);
                 break;
             }  
         }
-        for (umlNode node_info : umlNodes){
+        for (UmlNode node_info : UmlNodes){
             
-            for (adjacentNode target: node_info.getTargets())
+            for (AdjacentNode target: node_info.getTargets())
             {
                 target.setIndex(temp.indexOf(searchUmlNodeByIdOrName(target.getId())));
                 node_info.getTargets().set(node_info.getTargets().indexOf(target), target);
                 temp.set(temp.indexOf(node_info),node_info);
             }
-            for (adjacentNode source: node_info.getSources())
+            for (AdjacentNode source: node_info.getSources())
              {
                  source.setIndex(temp.indexOf(searchUmlNodeByIdOrName(source.getId())));
                  node_info.getSources().set(node_info.getSources().indexOf(source), source);
@@ -374,17 +374,17 @@ public class Input {
              } 
                       
         }
-        umlNodes = temp;
+        UmlNodes = temp;
         setSorted(true);
     }
     /**
      * Method Name : searchUmlNodeByIdOrName
      * Parameter   : id or name
-     * Description : walk thru umlNodes and return node if matched id or name  
-     * Output      : matched umlNode
+     * Description : walk thru UmlNodes and return node if matched id or name
+     * Output      : matched UmlNode
      */
-    public umlNode searchUmlNodeByIdOrName(String id){
-        for (umlNode node_info : umlNodes){
+    public UmlNode searchUmlNodeByIdOrName(String id){
+        for (UmlNode node_info : UmlNodes){
             if (id.equals(node_info.getId()) || id.equals(node_info.getName())){
                 return node_info;
             }
@@ -394,11 +394,11 @@ public class Input {
     /**
      * Method Name : getFinalNode 
      * Parameter   : None
-     * Description : return a final umlNode  
-     * Output      : final umlNode 
+     * Description : return a final UmlNode
+     * Output      : final UmlNode
      */
-    public umlNode getFinalNode(){
-        for (umlNode node_info : umlNodes){
+    public UmlNode getFinalNode(){
+        for (UmlNode node_info : UmlNodes){
             if (node_info.isLastNode()){
                 return node_info;
             }
@@ -408,11 +408,11 @@ public class Input {
     /**
      * Method Name : getFirstNode 
      * Parameter   : None
-     * Description : return a first umlNode  
-     * Output      : first umlNode 
+     * Description : return a first UmlNode
+     * Output      : first UmlNode
      */
-    public umlNode getFirstNode(){
-        for (umlNode node_info : umlNodes){
+    public UmlNode getFirstNode(){
+        for (UmlNode node_info : UmlNodes){
             if (node_info.isFirstNode()){
                 return node_info;
             }
@@ -422,12 +422,12 @@ public class Input {
     /**
      * Method Name : getNodeByIndex 
      * Parameter   : index
-     * Description : Given index, return a matched umlNode
-     * Output      : matched umlNode 
+     * Description : Given index, return a matched UmlNode
+     * Output      : matched UmlNode
      */
-    public umlNode getNodeByIndex(int index){
+    public UmlNode getNodeByIndex(int index){
         
-        return umlNodes.get(index);
+        return UmlNodes.get(index);
     }
     public boolean isSuccess() {
         return success;

@@ -12,10 +12,9 @@ import RelTestFTA.controller.TestInput;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
-import RelTestFTA.model.umlNode;
+import RelTestFTA.model.UmlNode;
 import RelTestFTA.view.Input;
 import RelTestFTA.view.Output;
-import sun.reflect.generics.tree.Tree;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,7 +78,7 @@ public class RelTestFTA {
 
                 GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
 
-                ArrayList<umlNode> nodes= processingGoal.getUmlNodes();
+                ArrayList<UmlNode> nodes= processingGoal.getUmlNodes();
                 if (ConstantsConfig.PRINT_DEBUG_INFO) input.printUmlNodesArray();
 
                 // *******************************************************************

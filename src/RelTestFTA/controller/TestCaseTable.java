@@ -11,21 +11,21 @@ import java.util.ArrayList;
 
 /**
  * Class Name  : TestCaseTable 
- * Parameter   : umlNodes - list of umlNodes from Input class
- *             : finalNode - final umlNode
+ * Parameter   : UmlNodes - list of UmlNodes from Input class
+ *             : finalNode - final UmlNode
  * Description : create test case table for each condition
  *               
  * Output      : list of testcases
  */
 public class TestCaseTable {
     private ArrayList<TestCase> testcases = new ArrayList<TestCase>();
-    private ArrayList<umlNode> umlNodes = new ArrayList<umlNode>();
+    private ArrayList<UmlNode> UmlNodes = new ArrayList<UmlNode>();
     private TestCase temp = new TestCase();
     boolean workToDo = false;
     private int processedSource;
 
-    public TestCaseTable (ArrayList<umlNode> nodes, umlNode finalNode){
-        umlNodes = nodes;
+    public TestCaseTable (ArrayList<UmlNode> nodes, UmlNode finalNode){
+        UmlNodes = nodes;
         generateTestCaseTable(nodes,finalNode);
     }
     /**
@@ -39,17 +39,17 @@ public class TestCaseTable {
     }
     /**
      * Method Name : generateTestCaseTable 
-     * Parameter   : umlNodes - list of umlNodes from Input class
-     *             : finalNode - final umlNode
+     * Parameter   : UmlNodes - list of UmlNodes from Input class
+     *             : finalNode - final UmlNode
      * Description : recursive walk thru every possible paths.
      *               Also, create CCTM and connect to the matched condition
      * Output      : populated testcases   
      */
-    private void generateTestCaseTable(ArrayList<umlNode> nodes, umlNode finalNode){
+    private void generateTestCaseTable(ArrayList<UmlNode> nodes, UmlNode finalNode){
         
         processedSource = 0;
-        for (adjacentNode goal : finalNode.getSources()){
-            umlNode startNode = nodes.get(goal.getIndex());
+        for (AdjacentNode goal : finalNode.getSources()){
+            UmlNode startNode = nodes.get(goal.getIndex());
             do {
                 workToDo = false;
                 getDraftTestCase_recursive(startNode);
@@ -61,19 +61,19 @@ public class TestCaseTable {
     }
     /**
      * Method Name : getDraftTestCase_recursive 
-     * Parameter   : umlNode - start node to find the path to initial node
+     * Parameter   : UmlNode - start node to find the path to initial node
      *     
      * Description : Given node, this function will recursively walk until initial node 
      *               and return back to the caller with WorkToDo flag
      * Output      : workToDo - if set, mean caller is required to call one more time
      *             : multisource - flag to indicate multi source for given node
      */
-    private boolean getDraftTestCase_recursive(umlNode node){
+    private boolean getDraftTestCase_recursive(UmlNode node){
         
         boolean mutlisource = false;
         int skipped = 0;
 
-        for (adjacentNode source :node.getSources()){
+        for (AdjacentNode source :node.getSources()){
             if (processedSource > 0 ){
                 processedSource--;
                 skipped++;
@@ -85,7 +85,7 @@ public class TestCaseTable {
                 processedSource += skipped;
                 return mutlisource;
             }
-            umlNode next  = umlNodes.get(source.getIndex());
+            UmlNode next  = UmlNodes.get(source.getIndex());
 
             connectCondition(next,source);
             mutlisource = getDraftTestCase_recursive(next);
@@ -124,7 +124,7 @@ public class TestCaseTable {
      *             : 
      * Output      : temp - testCase to be added in global array, testcases
      */
-    private void connectCondition (umlNode node,adjacentNode source){
+    private void connectCondition (UmlNode node,AdjacentNode source){
         if (node.isDecisionNode()){
             ConditionModel model = new ConditionModel();
             model.setName(node.getSources().get(0).getName());

@@ -7,24 +7,24 @@ package RelTestFTA.controller;
 
 import RelTestFTA.model.Condition;
 import RelTestFTA.model.ConditionModel;
-import RelTestFTA.model.adjacentNode;
-import RelTestFTA.model.umlNode;
+import RelTestFTA.model.AdjacentNode;
+import RelTestFTA.model.UmlNode;
 
 import java.util.ArrayList;
 
 /**
  * Class Name  : CCTM 
- * Parameter   : umlNodes - list of umlNodes from Input class
+ * Parameter   : UmlNodes - list of UmlNodes from Input class
  * 
  * Description : This class is designed to create CCTM for every decision node
  *               
  * Output      : CCTM - Condition Model for every decision node
  */
 public class CCTM {
-    ArrayList<umlNode> umlNodes;
+    ArrayList<UmlNode> UmlNodes;
     ArrayList<ConditionModel> ConditionModels = new ArrayList<ConditionModel> ();
-    public CCTM (ArrayList<umlNode> node){
-        umlNodes = node;
+    public CCTM (ArrayList<UmlNode> node){
+        UmlNodes = node;
         createCCTM();
     }
     /**
@@ -34,13 +34,13 @@ public class CCTM {
      * Output      : populated ConditionModels 
      */
     private void createCCTM() {
-        for (umlNode node : umlNodes){
+        for (UmlNode node : UmlNodes){
             if (node.isDecisionNode()){
                 ConditionModel model = new ConditionModel();
                  // decision node should have only 1 source
                 model.setName(node.getSources().get(0).getName());
                 model.setId(node.getSources().get(0).getId());
-                for (adjacentNode target : node.getTargets()){
+                for (AdjacentNode target : node.getTargets()){
                     Condition condition = new Condition();
                     condition.setName(target.getCondition());
                     condition.setValid(target.isValid());

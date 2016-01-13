@@ -4,7 +4,7 @@ import RelTestFTA.config.ConstantsConfig;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
-import RelTestFTA.model.umlNode;
+import RelTestFTA.model.UmlNode;
 
 import java.util.ArrayList;
 
@@ -17,23 +17,23 @@ public class Methodology {
     private TreeModel STD;
     private TreeModel FTD;
 
-    private ArrayList<umlNode> umlNodes;
-    private umlNode finalNode;
-    public Methodology(ArrayList<umlNode> nodes, umlNode finalNode){
-        this.umlNodes = nodes;
+    private ArrayList<UmlNode> UmlNodes;
+    private UmlNode finalNode;
+    public Methodology(ArrayList<UmlNode> nodes, UmlNode finalNode){
+        this.UmlNodes = nodes;
         this.finalNode = finalNode;
     }
     public void Execute(){
         // *******************************************************************
         // Step 2.1. Create CCTM for every decision point
-        CCTM cctm = new CCTM(umlNodes);
+        CCTM cctm = new CCTM(UmlNodes);
         if (ConstantsConfig.PRINT_DEBUG_INFO) cctm.printCCTMs();
         ConditionModels = cctm.getCCTM();
 
 
         // *******************************************************************
         // Step 2.2. create test case table
-        TestCaseTable testCase = new TestCaseTable(umlNodes,finalNode);
+        TestCaseTable testCase = new TestCaseTable(UmlNodes,finalNode);
         testCases = testCase.getTestCaseTable();
         if (ConstantsConfig.PRINT_DEBUG_INFO) testCase.printTestCases();
 
