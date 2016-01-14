@@ -8,7 +8,7 @@ package RelTestFTA.view;
 import java.awt.Image;
 import javax.swing.*;
 
-import RelTestFTA.config.ConstantsConfig;
+import RelTestFTA.config.Configurations;
 import RelTestFTA.model.Condition;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
@@ -46,45 +46,48 @@ public class Output extends JFrame {
     protected static HashMap xPosLine = new HashMap();
     protected static HashMap yPosTestCase = new HashMap();
 
-    private final String topEventGateName = ConstantsConfig.TOP_EVENT_GATE_NAME;
+    private final String topEventGateName = Configurations.TOP_EVENT_GATE_NAME;
     int  panelWidth;
     int  panelHeight;
     private int  processedCondition = 0;
     private int  depth = 0;
 
     // CCTM configuration
-    final int CCTMWidth = ConstantsConfig.CCTM_WIDTH;
-    final int CCTMHeight = ConstantsConfig.CCTM_HEIGHT;
-    final int CCTMOriginX = ConstantsConfig.CCTM_ORIGIN_X;
-    final int CCTMOriginY = ConstantsConfig.CCTM_ORIGIN_Y;
-    final int CCTMGapY = ConstantsConfig.CCTM_GAP_Y;
-    final int CCTMGapX = ConstantsConfig.CCTM_GAP_X;
+    final int CCTMWidth = Configurations.CCTM_WIDTH;
+    final int CCTMHeight = Configurations.CCTM_HEIGHT;
+    final int CCTMOriginX = Configurations.CCTM_ORIGIN_X;
+    final int CCTMOriginY = Configurations.CCTM_ORIGIN_Y;
+    final int CCTMGapY = Configurations.CCTM_GAP_Y;
+    final int CCTMGapX = Configurations.CCTM_GAP_X;
 
     // TestCase configuration
-    int TestCaseWidth = ConstantsConfig.TESTCASE_WIDTH;
-    final int TestCaseHeight = ConstantsConfig.TESTCASE_HEIGHT;
-    final int TestCaseOriginX = ConstantsConfig.TESTCASE_ORIGIN_X;
-    final int TestCaseOriginY = ConstantsConfig.TESTCASE_ORIGIN_Y;
-    final int TestCaseGapY = ConstantsConfig.TESTCASE_GAP_Y;
-    final int TestCaseGapX = ConstantsConfig.TESTCASE_GAP_X;
+    int TestCaseWidth = Configurations.TESTCASE_WIDTH;
+    final int TestCaseHeight = Configurations.TESTCASE_HEIGHT;
+    final int TestCaseOriginX = Configurations.TESTCASE_ORIGIN_X;
+    final int TestCaseOriginY = Configurations.TESTCASE_ORIGIN_Y;
+    final int TestCaseGapY = Configurations.TESTCASE_GAP_Y;
+    final int TestCaseGapX = Configurations.TESTCASE_GAP_X;
 
     // Condition Line configuration
-    final int ConditionLineWidth = ConstantsConfig.CONDITION_LINE_WIDTH; // min 10
-    int ConditionLineHeight = ConstantsConfig.CONDITION_LINE_HEIGHT;
+    final int ConditionLineWidth = Configurations.CONDITION_LINE_WIDTH; // min 10
+    int ConditionLineHeight = Configurations.CONDITION_LINE_HEIGHT;
 
-    // CCTM configuration
-    final int DiagramWidth = ConstantsConfig.DIAGRAM_WIDTH;
-    final int DiagramHeight = ConstantsConfig.DIAGRAM_HEIGHT;
-    final int DiagramOriginX = ConstantsConfig.DIAGRAM_ORIGIN_X;
-    final int DiagramOriginY = ConstantsConfig.DIAGRAM_ORIGIN_Y;
-    final int DiagramGapY = ConstantsConfig.DIAGRAM_GAP_Y;
-    final int DiagramGapX = ConstantsConfig.DIAGRAM_GAP_X;
-    final int MaxWidth = ConstantsConfig.MAX_WIDTH;
+    // Diagram configuration
+    int DiagramWidth = Configurations.DIAGRAM_WIDTH;
+    int DiagramHeight = Configurations.DIAGRAM_HEIGHT;
+    int DiagramOriginX = Configurations.DIAGRAM_ORIGIN_X;
+    int DiagramOriginY = Configurations.DIAGRAM_ORIGIN_Y;
+    int DiagramGapY = Configurations.DIAGRAM_GAP_Y;
+    int DiagramGapX = Configurations.DIAGRAM_GAP_X;
+    int MaxWidth = Configurations.MAX_WIDTH;
+
+    boolean ready = false;
     public Output (String name,int w,int h ){
         super(name);
         initGui(w,h);
         this.setSize(w,h);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+
     }
 
     public void initGui(int w,int h){
@@ -98,18 +101,20 @@ public class Output extends JFrame {
             yPos = new HashMap();
             xPosLine = new HashMap();
             yPosTestCase = new HashMap();
+            processedCondition = 0;
+            depth = 0;
             // create rounded for dot connection
             mxStylesheet stylesheet = graph.getStylesheet();
             Hashtable<String, Object> style = new Hashtable<String, Object>();
             style.put(mxConstants.STYLE_SHAPE, mxConstants.SHAPE_ELLIPSE);
             style.put(mxConstants.STYLE_OPACITY, 100);
-            style.put(mxConstants.STYLE_FILLCOLOR, ConstantsConfig.DOT_COLOR);
-            style.put(mxConstants.STYLE_FONTCOLOR, ConstantsConfig.DOT_FONT_COLOR);
+            style.put(mxConstants.STYLE_FILLCOLOR, Configurations.DOT_COLOR);
+            style.put(mxConstants.STYLE_FONTCOLOR, Configurations.DOT_FONT_COLOR);
             style.put(mxConstants.STYLE_EDITABLE, false);
-            stylesheet.putCellStyle(ConstantsConfig.DOT_NAME, style);
+            stylesheet.putCellStyle(Configurations.DOT_NAME, style);
 
             String filename = Output.class.getResource(
-                            ConstantsConfig.SHAPE_FILE_PATH).getPath();
+                            Configurations.SHAPE_FILE_PATH).getPath();
             Document doc = mxXmlUtils.parseXml(mxUtils.readFile(filename));
 
             Element shapes = doc.getDocumentElement();
@@ -166,7 +171,7 @@ public class Output extends JFrame {
 
         TreeModel treeModel = new TreeModel();
         treeModel.setName(goal);
-        treeModel.setOperation(ConstantsConfig.NONE_OPERATION);
+        treeModel.setOperation(Configurations.NONE_OPERATION);
         treeModel.getTree().add(diagram);
         // recursive next level
         ArrayList<String> toLinkNames = recur_tree(treeModel,lvl);
@@ -182,7 +187,7 @@ public class Output extends JFrame {
         drawDiagram(treeModel.getName(), treeModel.getOperation(), 0, toLinkNames.size(), (min+max)/2); // parent
 
         for(String linkName : toLinkNames){
-            addLine(treeModel.getName(),linkName,ConstantsConfig.EDGE_NO_ARROW);
+            addLine(treeModel.getName(),linkName, Configurations.EDGE_NO_ARROW);
         }
 
 
@@ -192,12 +197,13 @@ public class Output extends JFrame {
             public mxInteractiveCanvas createCanvas()
             {
                 mxInteractiveCanvas canvas = super.createCanvas();
-                canvas.setImageBasePath(ConstantsConfig.IMAGE_PATH);
+                canvas.setImageBasePath(Configurations.IMAGE_PATH);
 
                 return canvas;
             }
         };
         getContentPane().add(graphComponent);
+        setReady(true);
     }
 
     private ArrayList<String> recur_tree(TreeModel trees, int lvl){
@@ -208,7 +214,7 @@ public class Output extends JFrame {
 
             if (toLinkNames.size() == 0){
                 // bottom
-                drawDiagram(tree.getName(), ConstantsConfig.NONE_OPERATION, depth, 0,null);
+                drawDiagram(tree.getName(), Configurations.NONE_OPERATION, depth, 0,null);
             }else{
                 if (lvl < (depth-1)) { // not bottom and parent of bottom
                     // cal xpos
@@ -225,7 +231,7 @@ public class Output extends JFrame {
                     drawDiagram(tree.getName(), tree.getOperation(), lvl, toLinkNames.size(), null); // parent
                 }
                 for(String linkName : toLinkNames){
-                    addLine(tree.getName(),linkName,ConstantsConfig.EDGE_NO_ARROW);
+                    addLine(tree.getName(),linkName, Configurations.EDGE_NO_ARROW);
                 }
             }
         }
@@ -256,18 +262,19 @@ public class Output extends JFrame {
         graph.getModel().beginUpdate();
         try
         {
-            String shape = null;
+            String shape = new String();
             String label = null;
-            if (operation.equals(ConstantsConfig.AND_OPERATION)){
-                shape = ConstantsConfig.SHAPE_AND;
+            if (operation.equals(Configurations.AND_OPERATION)){
+                shape = Configurations.SHAPE_AND;
             }
-            else if (operation.equals(ConstantsConfig.OR_OPERATION)){
-                shape = ConstantsConfig.SHAPE_OR;
+            else if (operation.equals(Configurations.OR_OPERATION)){
+                shape = Configurations.SHAPE_OR;
             }
             else{
+                shape = Configurations.SHAPE_BLOCK;
                 label = name;
             }
-            shape += ConstantsConfig.DIAGRAM_FONT_SIZE_STYLE;
+
             int xPosStartChild = 0;
             int xPosEndChild = getXPos(lvl, TreeModel.class);
             String id = null;
@@ -314,10 +321,10 @@ public class Output extends JFrame {
         if (arrowStyle == null){
             arrowStyle = "";
         }
-        if (arrowStyle.equals(ConstantsConfig.EDGE_DIAMOND_ARROW)){
-            style = ConstantsConfig.ARROW_DIAMOND;
-        }else if (arrowStyle.equals(ConstantsConfig.EDGE_NO_ARROW)){
-            style = ConstantsConfig.ARROW_NONE;
+        if (arrowStyle.equals(Configurations.EDGE_DIAMOND_ARROW)){
+            style = Configurations.ARROW_DIAMOND;
+        }else if (arrowStyle.equals(Configurations.EDGE_NO_ARROW)){
+            style = Configurations.ARROW_NONE;
         }
         Object parentObj = getM().get(parentName);
         Object childObj = getM().get(childName);
@@ -446,13 +453,14 @@ public class Output extends JFrame {
             public mxInteractiveCanvas createCanvas()
             {
                 mxInteractiveCanvas canvas = super.createCanvas();
-                canvas.setImageBasePath(ConstantsConfig.IMAGE_PATH);
+                canvas.setImageBasePath(Configurations.IMAGE_PATH);
 
                 return canvas;
             }
         };
         graphComponent.setEnabled(false);
         getContentPane().add(graphComponent);
+        setReady(true);
 
     }
     private void drawConditionModel (ConditionModel model){
@@ -461,12 +469,13 @@ public class Output extends JFrame {
         {
             int Offset0 = (((CCTMWidth*model.getConditions().size()) + CCTMGapX*(model.getConditions().size()-1))/2) - (CCTMWidth/2);
 
+            String shape = Configurations.SHAPE_BLOCK + ";" + Configurations.CCTM_FONT_SIZE_STYLE;
             Object v = graph.insertVertex(parent, null, model.getName(),
                     getXPos(0,ConditionModel.class) + Offset0,
                     CCTMOriginY,
                     CCTMWidth,
                     CCTMHeight,
-                    ConstantsConfig.CCTM_FONT_SIZE_STYLE);
+                    shape);
             getM().put(model.getName(), v);
             for (Condition condition : model.getConditions()){
                 int xPosition =  getXPos(1, ConditionModel.class);
@@ -475,15 +484,16 @@ public class Output extends JFrame {
                         xPosition,
                         yPosition,
                         CCTMWidth,
-                        CCTMHeight);
+                        CCTMHeight,
+                        shape);
                 getM().put(condition.getName(), v1);
-                addLine(model.getName(),condition.getName(),ConstantsConfig.EDGE_NO_ARROW);
+                addLine(model.getName(),condition.getName(), Configurations.EDGE_NO_ARROW);
                 Object v2 = graph.insertVertex(parent, null, null,
                         xPosition + CCTMWidth/2,
                         yPosition + CCTMHeight,
                         ConditionLineWidth,
                         ConditionLineHeight,
-                        ConstantsConfig.SHAPE_VERTICAL_LINE);
+                        Configurations.SHAPE_VERTICAL_LINE);
                 String hashName = model.getName()+ "." + condition.getName();
                 xPosLine.put(hashName, xPosition + CCTMWidth / 2);
                 processedCondition++;
@@ -498,12 +508,12 @@ public class Output extends JFrame {
         graph.getModel().beginUpdate();
         try
         {
-            String name = ConstantsConfig.TESTCASE_PREFIX_NAME + index;
+            String name = Configurations.TESTCASE_PREFIX_NAME + index;
             String shape;
             if (valid) {
-                shape = ConstantsConfig.SHAPE_HORIZONTAL_GREEN_LINE;
+                shape = Configurations.SHAPE_HORIZONTAL_GREEN_LINE;
             }else{
-                shape = ConstantsConfig.SHAPE_HORIZONTAL_RED_LINE;
+                shape = Configurations.SHAPE_HORIZONTAL_RED_LINE;
             }
             int yPosistion = TestCaseOriginY + (index * (TestCaseGapY + TestCaseHeight));
             Object v = graph.insertVertex(parent, null,name ,
@@ -522,7 +532,7 @@ public class Output extends JFrame {
     }
     private void drawTestCaseLink(TestCase testCase, int index){
         ArrayList <ConditionModel> ConditionModels = testCase.getConditionModels();
-        String name = ConstantsConfig.TESTCASE_PREFIX_NAME + index;
+        String name = Configurations.TESTCASE_PREFIX_NAME + index;
         graph.getModel().beginUpdate();
         try
         {
@@ -536,7 +546,7 @@ public class Output extends JFrame {
                             y - 5,
                             10,
                             10,
-                            ConstantsConfig.DOT_NAME);
+                            Configurations.DOT_NAME);
                 }
             }
         }
@@ -545,5 +555,12 @@ public class Output extends JFrame {
             graph.getModel().endUpdate();
         }
     }
-    
+
+    public void setReady(boolean ready) {
+        this.ready = ready;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
 }

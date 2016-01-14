@@ -1,6 +1,6 @@
 package RelTestFTA.controller;
 
-import RelTestFTA.config.ConstantsConfig;
+import RelTestFTA.config.Configurations;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
@@ -27,7 +27,7 @@ public class Methodology {
         // *******************************************************************
         // Step 2.1. Create CCTM for every decision point
         CCTM cctm = new CCTM(UmlNodes);
-        if (ConstantsConfig.PRINT_DEBUG_INFO) cctm.printCCTMs();
+        if (Configurations.PRINT_DEBUG_INFO) cctm.printCCTMs();
         ConditionModels = cctm.getCCTM();
 
 
@@ -35,15 +35,15 @@ public class Methodology {
         // Step 2.2. create test case table
         TestCaseTable testCase = new TestCaseTable(UmlNodes,finalNode);
         testCases = testCase.getTestCaseTable();
-        if (ConstantsConfig.PRINT_DEBUG_INFO) testCase.printTestCases();
+        if (Configurations.PRINT_DEBUG_INFO) testCase.printTestCases();
 
 
         // *******************************************************************
         // Step 2.3. create tree diagram
         TreeDiagram tree = new TreeDiagram(testCases);
 
-        if (ConstantsConfig.PRINT_DEBUG_INFO) tree.printSuccessTreeDiagram();
-        if (ConstantsConfig.PRINT_DEBUG_INFO) tree.printFaultTreeDiagram();
+        if (Configurations.PRINT_DEBUG_INFO) tree.printSuccessTreeDiagram();
+        if (Configurations.PRINT_DEBUG_INFO) tree.printFaultTreeDiagram();
 
         STD = tree.getSuccessTreeDiagram();
         FTD = tree.getFaultTreeDiagram();

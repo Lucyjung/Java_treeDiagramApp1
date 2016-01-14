@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package RelTestFTA.controller;
-import RelTestFTA.config.ConstantsConfig;
+import RelTestFTA.config.Configurations;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
@@ -42,7 +42,7 @@ public class TreeDiagram {
             if (testcase.isValid())numOfValidPath++;
         }
 
-        diagram.setOperation((buildSuccess && (numOfValidPath == 1)) ? ConstantsConfig.AND_OPERATION:ConstantsConfig.OR_OPERATION);
+        diagram.setOperation((buildSuccess && (numOfValidPath == 1)) ? Configurations.AND_OPERATION: Configurations.OR_OPERATION);
         diagram.setName(diagram.getOperation() + globalIndex);
         globalIndex++;
         for (TestCase testcase : testcases){
@@ -51,12 +51,12 @@ public class TreeDiagram {
                 for (ConditionModel model: testcase.getConditionModels()){
                     TreeModel tree = new TreeModel ();
                     tree.setName(model.getName() + " " +  model.getConditions().get(0).getName());
-                    tree.setOperation(ConstantsConfig.NONE_OPERATION);
+                    tree.setOperation(Configurations.NONE_OPERATION);
                     testCaseTree.getTree().add(tree);
                 }
                 if (testcases.size() > 1) // There are more than one test case
                 {
-                    testCaseTree.setOperation((buildSuccess && (testcases.size() == 1)) ? ConstantsConfig.OR_OPERATION:ConstantsConfig.AND_OPERATION);
+                    testCaseTree.setOperation((buildSuccess && (testcases.size() == 1)) ? Configurations.OR_OPERATION: Configurations.AND_OPERATION);
                     testCaseTree.setName(testCaseTree.getOperation() + globalIndex);
                     globalIndex++;
                     diagram.getTree().add(testCaseTree);

@@ -2,7 +2,6 @@ package RelTestFTA.controller;
 
 import RelTestFTA.model.AdjacentNode;
 import RelTestFTA.model.UmlNode;
-import RelTestFTA.view.Input;
 
 import java.io.IOException;
 import java.util.ArrayList;

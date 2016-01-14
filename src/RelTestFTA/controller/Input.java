@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package RelTestFTA.view;
+package RelTestFTA.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import RelTestFTA.config.ConstantsConfig;
+import RelTestFTA.config.Configurations;
 import RelTestFTA.RelTestFTA;
 import RelTestFTA.model.UmlNode;
 import RelTestFTA.model.XmiNode;
@@ -42,26 +41,31 @@ public class Input {
     boolean success = false;
     boolean populated = false;
 
-    protected final ArrayList<XmiNode> xmiNodes = new ArrayList<XmiNode> ();
-    private final ArrayList<String>  temp_condition = new ArrayList<String> ();
+    protected  ArrayList<XmiNode> xmiNodes = new ArrayList<XmiNode> ();
+    private  ArrayList<String>  temp_condition = new ArrayList<String> ();
 
     private boolean validateSourceNode = false;
     private boolean validateTargetNode = false;
 
 
-
-    public Input() throws IOException{
-        JFileChooser chooser = new JFileChooser();
-        int returnVal = chooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File chosenFile = chooser.getSelectedFile();
-            setFilePath(chosenFile.getPath());
-            openXml(chosenFile);
-            populateSourceAndTargetNode();
-            sortAndIndexUmlNode();
-            setSuccess(true);
-
-        }
+    public void reInit(){
+        UmlNodes = new ArrayList<UmlNode>  ();
+        goalList = new ArrayList<String>();
+        filePath = "";
+        xmiNodes = new ArrayList<XmiNode> ();
+        temp_condition = new ArrayList<String> ();
+        validateSourceNode = false;
+        validateTargetNode = false;
+        sorted = false;
+        success = false;
+        populated = false;
+    }
+    public void processFile (File chosenFile) throws IOException {
+        setFilePath(chosenFile.getPath());
+        openXml(chosenFile);
+        populateSourceAndTargetNode();
+        sortAndIndexUmlNode();
+        setSuccess(true);
     }
     /**
      * Method Name : printUmlNodesArray 
@@ -135,7 +139,7 @@ public class Input {
         UmlNode finalNode = getFinalNode();
         for (AdjacentNode source : finalNode.getSources()){
             goalList.add(source.getName());
-            if (ConstantsConfig.PRINT_DEBUG_INFO) System.out.println("goal : "+source.getName());
+            if (Configurations.PRINT_DEBUG_INFO) System.out.println("goal : "+source.getName());
         }
         return goalList;
     }
