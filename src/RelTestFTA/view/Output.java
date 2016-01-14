@@ -469,7 +469,7 @@ public class Output extends JFrame {
         {
             int Offset0 = (((CCTMWidth*model.getConditions().size()) + CCTMGapX*(model.getConditions().size()-1))/2) - (CCTMWidth/2);
 
-            String shape = Configurations.SHAPE_BLOCK + ";" + Configurations.CCTM_FONT_SIZE_STYLE;
+            String shape = Configurations.CCTM_FONT_SIZE_STYLE + ";" + Configurations.SHAPE_BLOCK ;
             Object v = graph.insertVertex(parent, null, model.getName(),
                     getXPos(0,ConditionModel.class) + Offset0,
                     CCTMOriginY,
