@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public class TestInput extends Input {
     public TestInput(String name) throws IOException {

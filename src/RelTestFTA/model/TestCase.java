@@ -8,7 +8,7 @@ package RelTestFTA.model;
 import java.util.ArrayList;
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class TestCase {
     ArrayList <ConditionModel> ConditionModels = new ArrayList <ConditionModel>();

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class TreeModel {
     String name;

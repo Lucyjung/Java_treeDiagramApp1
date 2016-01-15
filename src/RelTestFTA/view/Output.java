@@ -35,7 +35,7 @@ import java.util.Hashtable;
 
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class Output extends JFrame {
     mxGraph graph = new mxGraph();
@@ -257,12 +257,21 @@ public class Output extends JFrame {
         String value = yPosTestCase.get(key).toString();
         return Integer.parseInt( value);
     }
+
+    /** draw the diagram (STD and FTD)
+     * @param name name of vertex
+     * @param operation AND_OPERATION, OR_OPERATION, NONE_OPERATION
+     * @param lvl row to be drawn the vertex
+     * @param childCount child of this vertex
+     * @param forceXPos x position to be drawn
+     * @return position in x of this vertex
+     */
     private int drawDiagram(String name, String operation, int lvl, int childCount, Integer forceXPos){
         Integer xPosition = 0;
         graph.getModel().beginUpdate();
         try
         {
-            String shape = new String();
+            String shape;
             String label = null;
             if (operation.equals(Configurations.AND_OPERATION)){
                 shape = Configurations.SHAPE_AND;
@@ -274,7 +283,7 @@ public class Output extends JFrame {
                 shape = Configurations.SHAPE_BLOCK;
                 label = name;
             }
-
+            shape = Configurations.DIAGRAM_FONT_SIZE_STYLE + ";" + shape;
             int xPosStartChild = 0;
             int xPosEndChild = getXPos(lvl, TreeModel.class);
             String id = null;
@@ -315,6 +324,12 @@ public class Output extends JFrame {
         }
         return xPosition;
     }
+
+    /** add line between to 2 vertex
+     * @param parentName origin vertex name
+     * @param childName destination vertex name
+     * @param arrowStyle style , EDGE_NO_ARROW or EDGE_DIAMOND_ARROW
+     */
     private void addLine(String parentName ,String childName, String arrowStyle){
 
         String style = "";
@@ -332,14 +347,11 @@ public class Output extends JFrame {
 
     }
 
-    private int getXPosition(int order, Class c)
-    {
-
-        if (c.getSimpleName().equals(ConditionModel.class.getSimpleName())){
-            return ((order + processedCondition)*CCTMWidth)+ CCTMGapX;
-        }
-        return order*100;
-    }
+    /** Secret routine for drawing
+     * @param lvl
+     * @param c
+     * @return
+     */
     private int getXPos(Integer lvl, Class c)
     {
         Object obj = null;
@@ -388,6 +400,12 @@ public class Output extends JFrame {
         String name = c.getSimpleName() + lvl;
         xPos.put(name,value);
     }
+
+    /** Secret routine for drawing
+     * @param lvl secret
+     * @param c secret
+     * @return Y position
+     */
     private int getYPos(Integer lvl, Class c)
     {
         String name = c.getSimpleName();
@@ -418,11 +436,19 @@ public class Output extends JFrame {
         return newYPos;
     }
 
+    /**
+     * @param lvl number of row
+     * @return Y position
+     */
     private int getYPosition(int lvl)
     {
         return lvl*(DiagramHeight+DiagramGapY) + DiagramOriginY;
     }
 
+    /**
+     * @param TestCases List of Test Case to be drawn
+     * @param ConditionModels List of Condition Model to be drawn
+     */
     public void drawCCTM(ArrayList<TestCase> TestCases, ArrayList<ConditionModel> ConditionModels){
         // draw ConditionModels
         int order = 0;
@@ -463,6 +489,10 @@ public class Output extends JFrame {
         setReady(true);
 
     }
+
+    /**
+     * @param model model to be drawn
+     */
     private void drawConditionModel (ConditionModel model){
         graph.getModel().beginUpdate();
         try
@@ -504,6 +534,11 @@ public class Output extends JFrame {
             graph.getModel().endUpdate();
         }
     }
+
+    /**
+     * @param index index of test case
+     * @param valid validity of test case
+     */
     private void drawTestCase(int index, boolean valid){
         graph.getModel().beginUpdate();
         try
@@ -530,6 +565,11 @@ public class Output extends JFrame {
             graph.getModel().endUpdate();
         }
     }
+
+    /**
+     * @param testCase test case to be drawn
+     * @param index index
+     */
     private void drawTestCaseLink(TestCase testCase, int index){
         ArrayList <ConditionModel> ConditionModels = testCase.getConditionModels();
         String name = Configurations.TESTCASE_PREFIX_NAME + index;

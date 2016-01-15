@@ -115,6 +115,24 @@ public class TestCaseTable {
         }
 
     }
+    public int countValidTestCases() {
+        int count = 0;
+        for (TestCase testcase : testcases){
+            if (testcase.isValid()){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int countInvalidTestCases() {
+        int count = 0;
+        for (TestCase testcase : testcases){
+            if (!testcase.isValid()){
+                count++;
+            }
+        }
+        return count;
+    }
     /**
      * Method Name : connectCondition
      * Parameter   : node - node to get the source name and id

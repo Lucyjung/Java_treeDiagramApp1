@@ -7,7 +7,7 @@ package RelTestFTA.model;
 
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class AdjacentNode {
     int index;

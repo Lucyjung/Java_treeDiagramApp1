@@ -9,13 +9,15 @@ import RelTestFTA.model.UmlNode;
 import java.util.ArrayList;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public class Methodology {
     private ArrayList<ConditionModel> ConditionModels;
     private ArrayList<TestCase> testCases;
     private TreeModel STD;
     private TreeModel FTD;
+    private int validTestCaseCount = 0;
+    private int invalidTestCaseCount = 0;
 
     private ArrayList<UmlNode> UmlNodes;
     private UmlNode finalNode;
@@ -36,7 +38,8 @@ public class Methodology {
         TestCaseTable testCase = new TestCaseTable(UmlNodes,finalNode);
         testCases = testCase.getTestCaseTable();
         if (Configurations.PRINT_DEBUG_INFO) testCase.printTestCases();
-
+        validTestCaseCount = testCase.countValidTestCases();
+        invalidTestCaseCount = testCase.countInvalidTestCases();
 
         // *******************************************************************
         // Step 2.3. create tree diagram
@@ -79,5 +82,21 @@ public class Methodology {
 
     public void setFTD(TreeModel FTD) {
         this.FTD = FTD;
+    }
+
+    public int getValidTestCaseCount() {
+        return validTestCaseCount;
+    }
+
+    public void setValidTestCaseCount(int validTestCaseCount) {
+        this.validTestCaseCount = validTestCaseCount;
+    }
+
+    public int getInvalidTestCaseCount() {
+        return invalidTestCaseCount;
+    }
+
+    public void setInvalidTestCaseCount(int invalidTestCaseCount) {
+        this.invalidTestCaseCount = invalidTestCaseCount;
     }
 }

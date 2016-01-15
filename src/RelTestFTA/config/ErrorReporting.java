@@ -1,7 +1,7 @@
 package RelTestFTA.config;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public class  ErrorReporting {
     public static String SUCCESS_TYPE = "Thanks";

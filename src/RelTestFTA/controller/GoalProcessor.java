@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public class GoalProcessor{
     private Input input;

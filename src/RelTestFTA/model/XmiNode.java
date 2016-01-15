@@ -10,7 +10,7 @@ import java.util.Collections;
 
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class XmiNode{
     private Node   refNode;

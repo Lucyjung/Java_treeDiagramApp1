@@ -1,15 +1,12 @@
 package RelTestFTA.view;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public class ButtonEditor extends DefaultCellEditor {
     protected JButton button;
@@ -60,7 +57,7 @@ public class ButtonEditor extends DefaultCellEditor {
             // System.out.println(label + ": Ouch!");
         }
         isPushed = false;
-        return new String(label);
+        return label;
     }
 
     public boolean stopCellEditing() {

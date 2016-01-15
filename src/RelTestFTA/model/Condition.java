@@ -7,7 +7,7 @@ package RelTestFTA.model;
 
 /**
  *
- * @author Z510
+ * @author Lucy
  */
 public class Condition {
     String name;

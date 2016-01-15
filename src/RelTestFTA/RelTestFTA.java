@@ -143,11 +143,16 @@ public class RelTestFTA {
                         stdFrame.drawTreeDiagram(STD, validGoal);
                         stdFrame.setVisible(false);
 
-                        form.getTable().setValueAt(Configurations.CCTM_BUTTON_NAME,0,2);
-                        form.getTable().setValueAt(Configurations.STD_BUTTON_NAME,1,2);
-                        form.getTable().setValueAt(Configurations.FTD_BUTTON_NAME,2,2);
-                        form.getTable().getColumn("Button").setCellRenderer(new ButtonRenderer(true));
-                        form.getTable().getColumn("Button").setCellEditor(
+                        form.getTable().setValueAt(testCases.size(),0,Configurations.TESTCASE_COLUMN);
+                        form.getTable().setValueAt(methodology.getValidTestCaseCount(),1,Configurations.TESTCASE_COLUMN);
+                        form.getTable().setValueAt(methodology.getInvalidTestCaseCount(),2,Configurations.TESTCASE_COLUMN);
+
+                        form.getTable().setValueAt(Configurations.CCTM_BUTTON_NAME,0,Configurations.BUTTON_COLUMN);
+                        form.getTable().setValueAt(Configurations.STD_BUTTON_NAME,1,Configurations.BUTTON_COLUMN);
+                        form.getTable().setValueAt(Configurations.FTD_BUTTON_NAME,2,Configurations.BUTTON_COLUMN);
+
+                        form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(new ButtonRenderer(true));
+                        form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(
                             new ButtonEditor(new JCheckBox()){
                                 @Override
                                 public Object getCellEditorValue() {
@@ -162,7 +167,7 @@ public class RelTestFTA {
                                         }
                                     }
                                     setPushed(false);
-                                    return new String(this.getLabel());
+                                    return this.getLabel();
                                 }
                             });
                     } catch (IOException e1) {

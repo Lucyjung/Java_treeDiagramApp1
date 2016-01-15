@@ -1,7 +1,7 @@
 package RelTestFTA.config;
 
 /**
- * Created by Z510 on 14/1/2559.
+ * Created by Lucy on 14/1/2559.
  */
 public enum Configurations {;
     public static boolean PRINT_DEBUG_INFO = false;       // debug info
@@ -63,14 +63,14 @@ public enum Configurations {;
 
     // CCTM configuration
     public static int DIAGRAM_WIDTH = 60;
-    public static int DIAGRAM_HEIGHT = 100;
+    public static int DIAGRAM_HEIGHT = 80;
     public static int DIAGRAM_ORIGIN_X= 60;
     public static int DIAGRAM_ORIGIN_Y = 10;
     public static int DIAGRAM_GAP_Y = 50;
     public static int DIAGRAM_GAP_X = 10;
     public static int MAX_WIDTH = 99999;
-    public static int DIAGRAM_FONT_SIZE = 15;
-    public static String DIAGRAM_FONT_SIZE_STYLE = ";fontSize="+ DIAGRAM_FONT_SIZE;
+    public static int DIAGRAM_FONT_SIZE = 10;
+    public static String DIAGRAM_FONT_SIZE_STYLE = "fontSize="+ DIAGRAM_FONT_SIZE;
 
     //Dot-connect configuration
     public static String DOT_NAME = "ROUNDED";
@@ -91,5 +91,8 @@ public enum Configurations {;
     public static String CCTM_BUTTON_NAME = "View CCTM";
     public static String STD_BUTTON_NAME = "View STD";
     public static String FTD_BUTTON_NAME = "View FTD";
+    public static String BUTTON_COLUMN_NAME   = "BUTTON";
+    public static int    BUTTON_COLUMN   = 2;
+    public static int    TESTCASE_COLUMN   = 1;
 
 }

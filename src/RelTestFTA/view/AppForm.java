@@ -113,16 +113,21 @@ public class AppForm extends JFrame {
 		dm.setDataVector(new Object[][] { { "CCTM", "", ""},
 						{ "STD", "", ""},
 						{ "FTD", "" , "" } },
-				new Object[] { "Diagram Generation", "Test Case", "Button" });
+				new Object[] { "Diagram Generation", "Test Case", Configurations.BUTTON_COLUMN_NAME });
 
 		table = new JTable(dm);
 	}
 	public void reInitTable(){
-		table.setValueAt("", 0, 2);
-		table.setValueAt("", 1, 2);
-		table.setValueAt("", 2, 2);
-		table.getColumn("Button").setCellRenderer(null);
-		table.getColumn("Button").setCellEditor(null);
+		table.setValueAt("", 0, Configurations.BUTTON_COLUMN);
+		table.setValueAt("", 1, Configurations.BUTTON_COLUMN);
+		table.setValueAt("", 2, Configurations.BUTTON_COLUMN);
+
+		table.setValueAt("", 0, Configurations.TESTCASE_COLUMN);
+		table.setValueAt("", 1, Configurations.TESTCASE_COLUMN);
+		table.setValueAt("", 2, Configurations.TESTCASE_COLUMN);
+
+		table.getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(null);
+		table.getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(null);
 	}
 }
 
