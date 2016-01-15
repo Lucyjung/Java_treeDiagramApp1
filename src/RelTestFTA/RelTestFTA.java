@@ -175,10 +175,7 @@ public class RelTestFTA {
                     }
                 }
             });
-
         }
-
-
     }
     private static void tempFunc(Input input, int panelWidth, int panelHeight){
         if (!input.isSuccess()) {
@@ -193,11 +190,8 @@ public class RelTestFTA {
                 String invalidGoal;
                 String validGoal;
 
-
                 invalidGoal = Configurations.TEST_INVALID_GOAL;
                 validGoal = Configurations.TEST_GOAL;
-
-
 
                 GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
 
