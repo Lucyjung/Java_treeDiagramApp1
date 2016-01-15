@@ -40,11 +40,11 @@ import java.util.Hashtable;
 public class Output extends JFrame {
     mxGraph graph = new mxGraph();
     Object parent = graph.getDefaultParent();
-    protected static HashMap m = new HashMap();
-    protected static HashMap xPos = new HashMap();
-    protected static HashMap yPos = new HashMap();
-    protected static HashMap xPosLine = new HashMap();
-    protected static HashMap yPosTestCase = new HashMap();
+    private static HashMap m = new HashMap();
+    private static HashMap xPos = new HashMap();
+    private static HashMap yPos = new HashMap();
+    private static HashMap xPosLine = new HashMap();
+    private static HashMap yPosTestCase = new HashMap();
 
     private final String topEventGateName = Configurations.TOP_EVENT_GATE_NAME;
     int  panelWidth;

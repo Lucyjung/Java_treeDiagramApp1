@@ -114,9 +114,6 @@ public class RelTestFTA {
                         if (!validGoal.equals(goal)) invalidGoal = goal;
                     }
                     try {
-                        cctmFrame.initGui(panelWidth, panelHeight);
-                        stdFrame.initGui(panelWidth, panelHeight);
-                        ftdFrame.initGui(panelWidth, panelHeight);
 
                         GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
                         ArrayList<UmlNode> nodes= processingGoal.getUmlNodes();
@@ -134,12 +131,15 @@ public class RelTestFTA {
                         // *******************************************************************
                         // Step 3. Draw diagram
 
+                        cctmFrame.initGui(panelWidth, panelHeight);
                         cctmFrame.drawCCTM(testCases, ConditionModels);
                         cctmFrame.setVisible(false);
 
+                        ftdFrame.initGui(panelWidth, panelHeight);
                         ftdFrame.drawTreeDiagram(FTD, invalidGoal);
                         ftdFrame.setVisible(false);
 
+                        stdFrame.initGui(panelWidth, panelHeight);
                         stdFrame.drawTreeDiagram(STD, validGoal);
                         stdFrame.setVisible(false);
 
@@ -161,9 +161,9 @@ public class RelTestFTA {
                                             cctmFrame.setVisible(true);
                                         }
                                         else if (this.getLabel().equals(Configurations.STD_BUTTON_NAME)){
-                                            ftdFrame.setVisible(true);
-                                        }else if (this.getLabel().equals(Configurations.FTD_BUTTON_NAME)){
                                             stdFrame.setVisible(true);
+                                        }else if (this.getLabel().equals(Configurations.FTD_BUTTON_NAME)){
+                                            ftdFrame.setVisible(true);
                                         }
                                     }
                                     setPushed(false);
