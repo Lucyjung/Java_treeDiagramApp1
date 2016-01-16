@@ -79,7 +79,7 @@ public enum Configurations {;
 
     public static String SHAPE_BLOCK = "";
     public static String SHAPE_OR = "shape=or_h";
-    public static String SHAPE_AND = "shape=or_h";
+    public static String SHAPE_AND = "shape=and_h";
     public static String SHAPE_VERTICAL_LINE = "shape=vline";
     public static String SHAPE_HORIZONTAL_TEXT_ALIGN = "align=right";
     public static String SHAPE_HORIZONTAL_GREEN_LINE = "shape=hline_green;"+SHAPE_HORIZONTAL_TEXT_ALIGN;
