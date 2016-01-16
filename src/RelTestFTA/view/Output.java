@@ -543,6 +543,7 @@ public class Output extends JFrame {
         graph.getModel().beginUpdate();
         try
         {
+            String label = (Configurations.TESTCASE_PREFIX_NAME + (index+1));
             String name = Configurations.TESTCASE_PREFIX_NAME + index;
             String shape;
             if (valid) {
@@ -551,12 +552,13 @@ public class Output extends JFrame {
                 shape = Configurations.SHAPE_HORIZONTAL_RED_LINE;
             }
             int yPosistion = TestCaseOriginY + (index * (TestCaseGapY + TestCaseHeight));
-            Object v = graph.insertVertex(parent, null,name ,
+            Object v = graph.insertVertex(parent, null,label ,
                     TestCaseOriginX,
                     yPosistion,
                     TestCaseWidth,
                     TestCaseHeight,
                     shape);
+            
             getM().put(name, v);
             yPosTestCase.put(name, yPosistion);
         }
