@@ -5,7 +5,7 @@ package RelTestFTA.config;
  */
 public enum Configurations {;
     public static boolean PRINT_DEBUG_INFO = false;       // debug info
-    public static boolean TEST_MODE = true;              // Test mode will read file from below config
+    public static boolean TEST_MODE = false;              // Test mode will read file from below config
     public static String TEST_FILE = "xml/testxmi2.xml";
     //public static String TEST_FILE = "xml/firstuml.xml";
     public static String TEST_GOAL = "Accept transaction";
