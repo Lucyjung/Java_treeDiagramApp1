@@ -209,6 +209,7 @@ public class Output extends JFrame {
     private ArrayList<String> recur_tree(TreeModel trees, int lvl){
         ArrayList<String> childNames = new ArrayList<String>();
         for (TreeModel tree : trees.getTree()){
+
             ArrayList<String> toLinkNames = recur_tree(tree, lvl+1);
             childNames.add(tree.getName());
 
@@ -281,7 +282,7 @@ public class Output extends JFrame {
             }
             else{
                 shape = Configurations.SHAPE_BLOCK;
-                label = name;
+                label = wrapString(name,"\n",Configurations.DIAGRAM_WORDWRAP_LIMIT);
             }
             shape = Configurations.DIAGRAM_FONT_SIZE_STYLE + ";" + shape;
             int xPosStartChild = 0;
@@ -500,8 +501,9 @@ public class Output extends JFrame {
             int Offset0 = (((CCTMWidth*model.getConditions().size()) + CCTMGapX*(model.getConditions().size()-1))/2) - (CCTMWidth/2);
 
             String shape = Configurations.CCTM_FONT_SIZE_STYLE + ";" + Configurations.SHAPE_BLOCK ;
-            Object v = graph.insertVertex(parent, null, model.getName(),
-                    getXPos(0,ConditionModel.class) + Offset0,
+            String label = wrapString(model.getName(),"\n",Configurations.CCTM_WORDWRAP_LIMIT);
+            Object v = graph.insertVertex(parent, null,label ,
+                    getXPos(0, ConditionModel.class) + Offset0,
                     CCTMOriginY,
                     CCTMWidth,
                     CCTMHeight,
@@ -596,6 +598,20 @@ public class Output extends JFrame {
         {
             graph.getModel().endUpdate();
         }
+    }
+    private static String wrapString(String s, String deliminator, int length) {
+        String result = "";
+        int lastdelimPos = 0;
+        for (String token : s.split(" ", -1)) {
+            if (result.length() - lastdelimPos + token.length() > length) {
+                result = result + deliminator + token;
+                lastdelimPos = result.length() + 1;
+            }
+            else {
+                result += (result.isEmpty() ? "" : " ") + token;
+            }
+        }
+        return result;
     }
 
     public void setReady(boolean ready) {

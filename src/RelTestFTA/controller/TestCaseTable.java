@@ -7,8 +7,11 @@ package RelTestFTA.controller;
 
 import RelTestFTA.model.*;
 
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
-
+import java.util.Collections;
+import java.util.List;
+import java.util.Collection;
 /**
  * Class Name  : TestCaseTable 
  * Parameter   : UmlNodes - list of UmlNodes from Input class
@@ -54,6 +57,7 @@ public class TestCaseTable {
                 workToDo = false;
                 getDraftTestCase_recursive(startNode);
                 temp.setValid(startNode.isValidPath());
+                Collections.reverse(temp.getConditionModels());
                 testcases.add(temp);
                 temp = new TestCase();
             }while (workToDo);

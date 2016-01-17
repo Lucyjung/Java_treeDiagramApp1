@@ -47,6 +47,7 @@ public enum Configurations {;
     public static int CCTM_GAP_X = 20;
     public static int CCTM_FONT_SIZE = 10;
     public static String CCTM_FONT_SIZE_STYLE = "fontSize="+ CCTM_FONT_SIZE;
+    public static int CCTM_WORDWRAP_LIMIT = 10;
 
     // TestCase configuration
     public static int TESTCASE_WIDTH = 800;
@@ -71,6 +72,7 @@ public enum Configurations {;
     public static int MAX_WIDTH = 99999;
     public static int DIAGRAM_FONT_SIZE = 10;
     public static String DIAGRAM_FONT_SIZE_STYLE = "fontSize="+ DIAGRAM_FONT_SIZE;
+    public static int DIAGRAM_WORDWRAP_LIMIT = 8;
 
     //Dot-connect configuration
     public static String DOT_NAME = "ROUNDED";

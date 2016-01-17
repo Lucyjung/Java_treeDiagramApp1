@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 /**
  * Class Name  : RelTestFTA 
  * Parameter   : None
@@ -58,7 +57,6 @@ public class RelTestFTA {
 
         // *******************************************************************
         // Step 1. load input
-
 
         if (testMode) {
             Input testInput = new TestInput(Configurations.TEST_FILE);
@@ -229,4 +227,5 @@ public class RelTestFTA {
             }
         }
     }
+
 }
