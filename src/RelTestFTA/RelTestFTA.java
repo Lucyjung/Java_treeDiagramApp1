@@ -4,29 +4,33 @@
  * and open the template in the editor.
  */
 package RelTestFTA;
+
 import RelTestFTA.config.Configurations;
 import RelTestFTA.config.ErrorReporting;
 import RelTestFTA.controller.GoalProcessor;
+import RelTestFTA.controller.Input;
 import RelTestFTA.controller.Methodology;
 import RelTestFTA.controller.TestInput;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
 import RelTestFTA.model.UmlNode;
-import RelTestFTA.controller.Input;
+import RelTestFTA.view.AppForm;
 import RelTestFTA.view.ButtonEditor;
 import RelTestFTA.view.ButtonRenderer;
-import RelTestFTA.view.AppForm;
 import RelTestFTA.view.Output;
+import com.alee.laf.WebLookAndFeel;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.OceanTheme;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  * Class Name  : RelTestFTA 
  * Parameter   : None
@@ -51,8 +55,19 @@ public class RelTestFTA {
         final Output cctmFrame = new Output(Configurations.HEADER_CCTM_FRAME,panelWidth, panelHeight);
         final Output ftdFrame = new Output(Configurations.HEADER_FTD_FRAME,panelWidth, panelHeight);
         final Output stdFrame = new Output(Configurations.HEADER_STD_FRAME,panelWidth, panelHeight);
-        final AppForm form = new AppForm();
 
+
+
+        try {
+            // Set System L&F
+            UIManager.setLookAndFeel(new WebLookAndFeel());
+        }
+        catch (UnsupportedLookAndFeelException e) {
+            // handle exception
+        }
+
+
+        final AppForm form = new AppForm();
         form.setVisible(true);
 
         // *******************************************************************

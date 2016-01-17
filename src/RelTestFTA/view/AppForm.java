@@ -14,6 +14,7 @@ import RelTestFTA.config.Configurations;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class AppForm extends JFrame {
 	public JButton btnGoal;
@@ -30,6 +31,10 @@ public class AppForm extends JFrame {
 		setLocation(Configurations.APP_LOCATION_X, Configurations.APP_LOCATION_Y);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(Configurations.IMAGE_ICON)));
+
+		getContentPane().setBackground(Color.white);
 
 		txtFile = new JTextField("");
 		txtFile.setBounds(20, 50, 490, 20);
@@ -64,7 +69,7 @@ public class AppForm extends JFrame {
 		getContentPane().add(table);
 
 		JScrollPane scroll = new JScrollPane(table);
-		scroll.setBounds(20, 125, 610, 99);
+		scroll.setBounds(20, 125, 610, 80);
 		getContentPane().add(scroll);
 
 	}
@@ -110,12 +115,14 @@ public class AppForm extends JFrame {
 	}
 	public void initTable(){
 		DefaultTableModel dm = new DefaultTableModel();
-		dm.setDataVector(new Object[][] { { "CCTM", "", ""},
-						{ "STD", "", ""},
-						{ "FTD", "" , "" } },
-				new Object[] { "Diagram Generation", "Test Case", Configurations.BUTTON_COLUMN_NAME });
+		dm.setDataVector(new Object[][] { { Configurations.CCTM_DISPLAY_TEXT, "", ""},
+						{ Configurations.STD_DISPLAY_TEXT, "", ""},
+						{ Configurations.FTD_DISPLAY_TEXT, "" , "" } },
+				new Object[] { Configurations.DIAGRAM_COLUMN_NAME, Configurations.TESTCASE_COLUMN_NAME, Configurations.BUTTON_COLUMN_NAME });
 
 		table = new JTable(dm);
+		table.getColumn(Configurations.DIAGRAM_COLUMN_NAME).setPreferredWidth(Configurations.CCTM_COLUMN_PREFERRED_WIDTH);
+
 	}
 	public void reInitTable(){
 		table.setValueAt("", 0, Configurations.BUTTON_COLUMN);
@@ -128,6 +135,8 @@ public class AppForm extends JFrame {
 
 		table.getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(null);
 		table.getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(null);
+
+
 	}
 }
 

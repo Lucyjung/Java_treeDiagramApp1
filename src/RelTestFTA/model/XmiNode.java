@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package RelTestFTA.model;
+
 import org.w3c.dom.Node;
+
 import java.util.ArrayList;
 import java.util.Collections;
 

@@ -5,9 +5,9 @@
  */
 package RelTestFTA.controller;
 
+import RelTestFTA.model.AdjacentNode;
 import RelTestFTA.model.Condition;
 import RelTestFTA.model.ConditionModel;
-import RelTestFTA.model.AdjacentNode;
 import RelTestFTA.model.UmlNode;
 
 import java.util.ArrayList;

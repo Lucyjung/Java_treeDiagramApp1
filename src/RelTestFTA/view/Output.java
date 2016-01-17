@@ -5,30 +5,29 @@
  */
 package RelTestFTA.view;
 
-import java.awt.Image;
-import javax.swing.*;
-
 import RelTestFTA.config.Configurations;
 import RelTestFTA.model.Condition;
 import RelTestFTA.model.ConditionModel;
 import RelTestFTA.model.TestCase;
 import RelTestFTA.model.TreeModel;
+import com.mxgraph.canvas.mxGraphics2DCanvas;
+import com.mxgraph.canvas.mxGraphicsCanvas2D;
 import com.mxgraph.model.mxCell;
+import com.mxgraph.shape.mxStencil;
+import com.mxgraph.shape.mxStencilRegistry;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.swing.view.mxInteractiveCanvas;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.mxUtils;
+import com.mxgraph.util.mxXmlUtils;
+import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.mxgraph.canvas.mxGraphics2DCanvas;
-import com.mxgraph.canvas.mxGraphicsCanvas2D;
-import com.mxgraph.shape.mxStencil;
-import com.mxgraph.shape.mxStencilRegistry;
-import com.mxgraph.swing.mxGraphComponent;
-import com.mxgraph.swing.view.mxInteractiveCanvas;
-import com.mxgraph.util.mxUtils;
-import com.mxgraph.util.mxXmlUtils;
-import com.mxgraph.view.mxGraph;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -86,8 +85,9 @@ public class Output extends JFrame {
         super(name);
         initGui(w,h);
         this.setSize(w,h);
+        this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource(Configurations.IMAGE_ICON)));
     }
 
     public void initGui(int w,int h){

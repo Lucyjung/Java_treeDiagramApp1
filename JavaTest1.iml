@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jgraphx" level="project" />
+    <orderEntry type="library" name="weblaf-complete-1.29" level="project" />
   </component>
 </module>

@@ -7,11 +7,8 @@ package RelTestFTA.controller;
 
 import RelTestFTA.model.*;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Collection;
 /**
  * Class Name  : TestCaseTable 
  * Parameter   : UmlNodes - list of UmlNodes from Input class
