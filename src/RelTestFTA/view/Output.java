@@ -112,6 +112,8 @@ public class Output extends JFrame {
             style.put(mxConstants.STYLE_FONTCOLOR, Configurations.DOT_FONT_COLOR);
             style.put(mxConstants.STYLE_EDITABLE, false);
             stylesheet.putCellStyle(Configurations.DOT_NAME, style);
+            
+         
 
             String filename = Output.class.getResource(
                             Configurations.SHAPE_FILE_PATH).getPath();
@@ -215,7 +217,10 @@ public class Output extends JFrame {
 
             if (toLinkNames.size() == 0){
                 // bottom
-                drawDiagram(tree.getName(), Configurations.NONE_OPERATION, depth, 0,null);
+                drawDiagram(tree.getName(), Configurations.NONE_OPERATION, lvl, 0,null);
+                if (lvl != depth){
+                    getXPos(depth, TreeModel.class);
+                }
             }else{
                 if (lvl < (depth-1)) { // not bottom and parent of bottom
                     // cal xpos
