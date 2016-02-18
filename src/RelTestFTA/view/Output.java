@@ -96,6 +96,8 @@ public class Output extends JFrame {
             panelWidth = w;
             panelHeight = h;
 
+            graph = new mxGraph();
+            parent = graph.getDefaultParent();
             m = new HashMap();
             xPos = new HashMap();
             yPos = new HashMap();

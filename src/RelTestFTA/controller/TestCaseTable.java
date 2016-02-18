@@ -54,6 +54,7 @@ public class TestCaseTable {
                 workToDo = false;
                 getDraftTestCase_recursive(startNode);
                 temp.setValid(startNode.isValidPath());
+                temp = optimizeTestCase(temp);
                 Collections.reverse(temp.getConditionModels());
                 testcases.add(temp);
                 temp = new TestCase();
@@ -73,7 +74,6 @@ public class TestCaseTable {
         
         boolean mutlisource = false;
         int skipped = 0;
-
         for (AdjacentNode source :node.getSources()){
             if (processedSource > 0 ){
                 processedSource--;
@@ -91,7 +91,7 @@ public class TestCaseTable {
             connectCondition(next,source);
             mutlisource = getDraftTestCase_recursive(next);
         }
-        return true;
+        return node.isDecisionNode()?true:false;
     }
     /**
      * Method Name : printTestCases
@@ -153,5 +153,34 @@ public class TestCaseTable {
             model.getConditions().add(condition);
             temp.getConditionModels().add(model);
         }
+    }
+
+    private TestCase optimizeTestCase (TestCase testCase){
+        ConditionModel prevModel = null;
+        ArrayList <ConditionModel> toBeDeleted = new ArrayList <ConditionModel>();
+        TestCase returnTestCase = testCase;
+        for (ConditionModel model : testCase.getConditionModels()){
+            if (compareConditionModel(model,prevModel)){
+                toBeDeleted.add(model);
+            }else{
+                prevModel = model;
+            }
+        }
+        if (toBeDeleted.size() > 0){
+            for (ConditionModel model : toBeDeleted){
+                returnTestCase.getConditionModels().remove(model);
+            }
+        }
+        return returnTestCase;
+    }
+    private boolean compareConditionModel(ConditionModel model1, ConditionModel model2){
+        if (model1 == null || model2 == null ) return false;
+        if ( (model1.getName() == model2.getName()) &&
+                model1.getId() == model2.getId()  &&
+                model1.getConditions().get(0).getName() == model2.getConditions().get(0).getName()){
+            return true;
+        }
+
+        return false;
     }
 }

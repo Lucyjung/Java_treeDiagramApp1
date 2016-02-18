@@ -73,6 +73,7 @@ public class Input {
         for (UmlNode node_info : UmlNodes) {
             System.out.println("Node "+ UmlNodes.indexOf(node_info)+" name = " + node_info.getName());
             System.out.println("Node "+ UmlNodes.indexOf(node_info)+" valid = " + node_info.isValidPath());
+            System.out.println("Node "+ UmlNodes.indexOf(node_info)+" decision node = " + node_info.isDecisionNode());
             int i =1;
             for (AdjacentNode source : node_info.getSources()){
                 System.out.println("Source " + i + " index = " + source.getIndex());
