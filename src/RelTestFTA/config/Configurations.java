@@ -4,7 +4,7 @@ package RelTestFTA.config;
  * Created by Lucy on 14/1/2559.
  */
 public enum Configurations {;
-    public static boolean PRINT_DEBUG_INFO = false;       // debug info
+    public static boolean PRINT_DEBUG_INFO = true;       // debug info
     public static boolean TEST_MODE = false;              // Test mode will read file from below config
     public static String TEST_FILE = "xml/testxmi2.xml";
     //public static String TEST_FILE = "xml/firstuml.xml";
@@ -14,7 +14,7 @@ public enum Configurations {;
 
     // App Lang display
     public static String HEADER_APP = "Reliability Tests for Process Flow with Fault Tree Analysis";
-    public static String HEADER_CCTM_FRAME = "Condition-Classification Tree Model";
+    public static String HEADER_CCTM_FRAME = "Condition-Classification Tree Method";
     public static String HEADER_FTD_FRAME = "Fault Tree Diagram";
     public static String HEADER_STD_FRAME = "Success Tree Diagram";
 
@@ -24,7 +24,7 @@ public enum Configurations {;
     public static String DIAGRAM_COLUMN_NAME   = "Diagram Generation";
     public static String TESTCASE_COLUMN_NAME   = "Test Case";
     public static String BUTTON_COLUMN_NAME   = "BUTTON";
-    public static String CCTM_DISPLAY_TEXT   = "Condition-Classification Tree Model";
+    public static String CCTM_DISPLAY_TEXT   = "Condition-Classification Tree Method";
     public static String STD_DISPLAY_TEXT   = "Success Tree Diagram";
     public static String FTD_DISPLAY_TEXT   = "Fault Tree Diagram";
     public static int    CCTM_COLUMN_PREFERRED_WIDTH = 250;
@@ -55,7 +55,7 @@ public enum Configurations {;
     public static String IMAGE_ICON = IMAGE_PATH + "rel_icon.png";
 
     // CCTM configuration
-    public static int CCTM_WIDTH = 50;
+    public static int CCTM_WIDTH = 70; //50
     public static int CCTM_HEIGHT = 50;
     public static int CCTM_ORIGIN_X = 60;
     public static int CCTM_ORIGIN_Y = 10;
@@ -79,8 +79,8 @@ public enum Configurations {;
     public static int CONDITION_LINE_HEIGHT= 550;
 
     // CCTM configuration
-    public static int DIAGRAM_WIDTH = 60;
-    public static int DIAGRAM_HEIGHT = 80;
+    public static int DIAGRAM_WIDTH = 85; //60
+    public static int DIAGRAM_HEIGHT = 60; //80
     public static int DIAGRAM_ORIGIN_X= 60;
     public static int DIAGRAM_ORIGIN_Y = 10;
     public static int DIAGRAM_GAP_Y = 50;
@@ -95,7 +95,7 @@ public enum Configurations {;
     public static String DOT_COLOR = "#000000";
     public static String DOT_FONT_COLOR = "#774400";
 
-    public static String SHAPE_BLOCK = "fillColor=red;gradientColor=#ffffff;shadow=1";
+    public static String SHAPE_BLOCK = "fillColor=white;gradientColor=#ffffff;shadow=1";
     public static String SHAPE_OR = "shape=or_h";
     public static String SHAPE_AND = "shape=and_h";
     public static String SHAPE_VERTICAL_LINE = "shape=vline";
@@ -104,6 +104,6 @@ public enum Configurations {;
     public static String SHAPE_HORIZONTAL_RED_LINE = "shape=hline_red;"+SHAPE_HORIZONTAL_TEXT_ALIGN;
 
     public static String ARROW_DIAMOND = "startArrow=none;endArrow=diamond";
-    public static String ARROW_NONE = "startArrow=none;endArrow=none;";
+    public static String ARROW_NONE = "startArrow=none;endArrow=none;edgeStyle=topToBottomEdgeStyle";
 
 }

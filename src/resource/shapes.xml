@@ -253,7 +253,7 @@
 	</background>
 	<foreground>
 		<fillstroke/>
-		<image src="or1.png" x="0" y="0" w="100" h="100" flipH="0"/>
+		<image src="or_gate_h.png" x="0" y="0" w="100" h="100" flipH="0"/>
 		<fontcolor color="#ffffff"/>
 		<fontstyle style="1"/>
 	</foreground>
@@ -267,7 +267,7 @@
 	</background>
 	<foreground>
 		<fillstroke/>
-		<image src="and1.png" x="0" y="0" w="100" h="100" flipH="0"/>
+		<image src="and_gate_h.png" x="0" y="0" w="100" h="100" flipH="0"/>
 		<fontcolor color="#ffffff"/>
 		<fontstyle style="1"/>
 	</foreground>
