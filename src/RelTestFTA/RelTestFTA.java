@@ -20,6 +20,7 @@ import RelTestFTA.view.ButtonEditor;
 import RelTestFTA.view.ButtonRenderer;
 import RelTestFTA.view.Output;
 import com.alee.laf.WebLookAndFeel;
+import jdk.internal.org.xml.sax.SAXParseException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -98,18 +99,28 @@ public class RelTestFTA {
                           try {
                               input.reInit();
                               input.processFile(file);
-                          } catch (IOException e1) {
-                              e1.printStackTrace();
+                          } catch (Exception e1) {
+                              JOptionPane.showMessageDialog(form,
+                                      ErrorReporting.FILE_ERROR_TYPE,
+                                      ErrorReporting.FILE_ERROR_TITLE,
+                                      JOptionPane.ERROR_MESSAGE);
+                              return;
                           }
                           if (Configurations.PRINT_DEBUG_INFO) input.printUmlNodesArray();
                           if (Configurations.PRINT_DEBUG_INFO) System.out.println(input.getFilePath());
 
                           form.getTxtFile().setText(fileopen.getSelectedFile().toString());
-                          form.getGoalList().removeAllItems();
-                          for (String goal : input.getGoalList()){
-                              form.getGoalList().addItem(goal);
+                          try {
+                              form.getGoalList().removeAllItems();
+                              for (String goal : input.getGoalList()){
+                                  form.getGoalList().addItem(goal);
+                              }
+                              form.getBtnGoal().setEnabled(true);
+                          }catch (Exception e2){
+
                           }
-                          form.getBtnGoal().setEnabled(true);
+
+
                           form.reInitTable();
                           cctmFrame.initGui(panelWidth, panelHeight);
                           stdFrame.initGui(panelWidth, panelHeight);
@@ -143,7 +154,6 @@ public class RelTestFTA {
 
                         // *******************************************************************
                         // Step 3. Draw diagram
-
                         cctmFrame.initGui(panelWidth, panelHeight);
                         cctmFrame.drawCCTM(testCases, ConditionModels);
                         cctmFrame.setVisible(false);

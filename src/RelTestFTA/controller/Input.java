@@ -56,12 +56,18 @@ public class Input {
         success = false;
         populated = false;
     }
-    public void processFile (File chosenFile) throws IOException {
+    public void processFile (File chosenFile) throws IOException, SAXException {
         setFilePath(chosenFile.getPath());
-        openXml(chosenFile);
-        populateSourceAndTargetNode();
-        sortAndIndexUmlNode();
-        setSuccess(true);
+        try {
+            openXml(chosenFile);
+            populateSourceAndTargetNode();
+            sortAndIndexUmlNode();
+            setSuccess(true);
+        }catch (Exception e) {
+            throw e;
+        }
+
+        return;
     }
     /**
      * Method Name : printUmlNodesArray 
@@ -151,7 +157,7 @@ public class Input {
      * Description : parse xmi file to variable xmiNode      
      * Output      : xmiNodes 
      */
-    protected void openXml(File file) throws IOException {
+    protected void openXml(File file) throws IOException, SAXException {
 
 
         DocumentBuilderFactory factory =  DocumentBuilderFactory.newInstance();
@@ -161,7 +167,8 @@ public class Input {
         try {
             builder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(RelTestFTA.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(RelTestFTA.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException(ex);
         }
 
         //Load and Parse the XML document
@@ -171,7 +178,7 @@ public class Input {
             assert builder != null;
             document = builder.parse(file);
         } catch (SAXException ex) {
-            Logger.getLogger(RelTestFTA.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IOException(ex);
         }
         //Iterating through the nodes and extracting the data.
 
