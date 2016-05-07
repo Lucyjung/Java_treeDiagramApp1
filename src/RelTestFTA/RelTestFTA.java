@@ -53,11 +53,6 @@ public class RelTestFTA {
         final int  panelHeight = Configurations.PANEL_HEIGHT;
         boolean testMode = Configurations.TEST_MODE;
         final Input input = new Input();
-        final Output cctmFrame = new Output(Configurations.HEADER_CCTM_FRAME,panelWidth, panelHeight);
-        final Output ftdFrame = new Output(Configurations.HEADER_FTD_FRAME,panelWidth, panelHeight);
-        final Output stdFrame = new Output(Configurations.HEADER_STD_FRAME,panelWidth, panelHeight);
-
-
 
         try {
             // Set System L&F
@@ -122,9 +117,6 @@ public class RelTestFTA {
 
 
                           form.reInitTable();
-                          cctmFrame.initGui(panelWidth, panelHeight);
-                          stdFrame.initGui(panelWidth, panelHeight);
-                          ftdFrame.initGui(panelWidth, panelHeight);
                       }
                   }
               }
@@ -132,11 +124,8 @@ public class RelTestFTA {
             form.getBtnGoal().addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String validGoal = form.getGoalList().getSelectedItem().toString();
-                    String invalidGoal = null;
-                    for (String goal : input.getGoalList()){
-                        if (!validGoal.equals(goal)) invalidGoal = goal;
-                    }
+                    final String validGoal = form.getGoalList().getSelectedItem().toString();
+
                     try {
 
                         GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
@@ -145,26 +134,10 @@ public class RelTestFTA {
 
                         // *******************************************************************
                         // Step 2. Execute Methodology
-                        Methodology methodology = new Methodology(nodes,input.getFinalNode());
+                        final Methodology methodology = new Methodology(nodes,input.getFinalNode());
                         methodology.Execute();
                         ArrayList<TestCase> testCases = methodology.getTestCases();
-                        ArrayList<ConditionModel> ConditionModels = methodology.getConditionModels();
-                        TreeModel STD = methodology.getSTD();
-                        TreeModel FTD = methodology.getFTD();
 
-                        // *******************************************************************
-                        // Step 3. Draw diagram
-                        cctmFrame.initGui(panelWidth, panelHeight);
-                        cctmFrame.drawCCTM(testCases, ConditionModels);
-                        cctmFrame.setVisible(false);
-
-                        ftdFrame.initGui(panelWidth, panelHeight);
-                        ftdFrame.drawTreeDiagram(FTD, invalidGoal);
-                        ftdFrame.setVisible(false);
-
-                        stdFrame.initGui(panelWidth, panelHeight);
-                        stdFrame.drawTreeDiagram(STD, validGoal);
-                        stdFrame.setVisible(false);
 
                         form.getTable().setValueAt(testCases.size(),0,Configurations.TESTCASE_COLUMN);
                         form.getTable().setValueAt(methodology.getValidTestCaseCount(),1,Configurations.TESTCASE_COLUMN);
@@ -174,18 +147,39 @@ public class RelTestFTA {
                         form.getTable().setValueAt(Configurations.STD_BUTTON_NAME,1,Configurations.BUTTON_COLUMN);
                         form.getTable().setValueAt(Configurations.FTD_BUTTON_NAME,2,Configurations.BUTTON_COLUMN);
 
+                        // *******************************************************************
+                        // Step 3. Draw diagram on click Event
                         form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(new ButtonRenderer(true));
                         form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(
                             new ButtonEditor(new JCheckBox()){
                                 @Override
                                 public Object getCellEditorValue() {
                                     if (this.isPushed()) {
+
+                                        Output cctmFrame = new Output(Configurations.HEADER_CCTM_FRAME,panelWidth, panelHeight);
+                                        ArrayList<TestCase> testCases = methodology.getTestCases();
+                                        ArrayList<ConditionModel> ConditionModels = methodology.getConditionModels();
                                         if (this.getLabel().equals(Configurations.CCTM_BUTTON_NAME)) {
+
+                                            cctmFrame.initGui(panelWidth, panelHeight);
+                                            cctmFrame.drawCCTM(testCases, ConditionModels);
                                             cctmFrame.setVisible(true);
                                         }
                                         else if (this.getLabel().equals(Configurations.STD_BUTTON_NAME)){
+                                            TreeModel STD = methodology.getSTD();
+                                            final Output stdFrame = new Output(Configurations.HEADER_STD_FRAME,panelWidth, panelHeight);
+                                            stdFrame.initGui(panelWidth, panelHeight);
+                                            stdFrame.drawTreeDiagram(STD, validGoal);
                                             stdFrame.setVisible(true);
                                         }else if (this.getLabel().equals(Configurations.FTD_BUTTON_NAME)){
+                                            TreeModel FTD = methodology.getFTD();
+                                            final Output ftdFrame = new Output(Configurations.HEADER_FTD_FRAME,panelWidth, panelHeight);
+                                            String invalidGoal = null;
+                                            for (String goal : input.getGoalList()){
+                                                if (!validGoal.equals(goal)) invalidGoal = goal;
+                                            }
+                                            ftdFrame.initGui(panelWidth, panelHeight);
+                                            ftdFrame.drawTreeDiagram(FTD, invalidGoal);
                                             ftdFrame.setVisible(true);
                                         }
                                     }

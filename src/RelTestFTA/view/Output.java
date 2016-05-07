@@ -37,8 +37,8 @@ import java.util.Hashtable;
  * @author Lucy
  */
 public class Output extends JFrame {
-    mxGraph graph = new mxGraph();
-    Object parent = graph.getDefaultParent();
+    mxGraph graph;
+    Object parent;
     private static HashMap m = new HashMap();
     private static HashMap xPos = new HashMap();
     private static HashMap yPos = new HashMap();
