@@ -20,13 +20,12 @@ import RelTestFTA.view.ButtonEditor;
 import RelTestFTA.view.ButtonRenderer;
 import RelTestFTA.view.Output;
 import com.alee.laf.WebLookAndFeel;
-import jdk.internal.org.xml.sax.SAXParseException;
+
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import javax.swing.plaf.metal.OceanTheme;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -111,7 +110,7 @@ public class RelTestFTA {
                                   form.getGoalList().addItem(goal);
                               }
                               form.getBtnGoal().setEnabled(true);
-                          }catch (Exception e2){
+                          }catch (Exception ignored){
 
                           }
 

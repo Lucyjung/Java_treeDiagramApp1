@@ -7,8 +7,8 @@ package RelTestFTA.controller;
 
 import RelTestFTA.model.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+
 /**
  * Class Name  : TestCaseTable 
  * Parameter   : UmlNodes - list of UmlNodes from Input class
@@ -21,9 +21,6 @@ public class TestCaseTable {
     private ArrayList<TestCase> testcases = new ArrayList<TestCase>();
     private ArrayList<UmlNode> UmlNodes = new ArrayList<UmlNode>();
     private TestCase temp = new TestCase();
-    boolean workToDo = false;
-    private int processedSource;
-
     public TestCaseTable (ArrayList<UmlNode> nodes, UmlNode finalNode){
         UmlNodes = nodes;
         generateTestCaseTable(nodes,finalNode);
@@ -46,20 +43,14 @@ public class TestCaseTable {
      * Output      : populated testcases   
      */
     private void generateTestCaseTable(ArrayList<UmlNode> nodes, UmlNode finalNode){
-        
-        processedSource = 0;
+
         for (AdjacentNode goal : finalNode.getSources()){
             UmlNode startNode = nodes.get(goal.getIndex());
-            do {
-                workToDo = false;
-                getDraftTestCase_recursive(startNode);
-                temp.setValid(startNode.isValidPath());
-                temp = optimizeTestCase(temp);
-                Collections.reverse(temp.getConditionModels());
-                testcases.add(temp);
-                temp = new TestCase();
-            }while (workToDo);
+            temp.setValid(startNode.isValidPath());
+            getDraftTestCase_recursive(startNode);
+
         }
+        removeDup();
     }
     /**
      * Method Name : getDraftTestCase_recursive 
@@ -70,28 +61,33 @@ public class TestCaseTable {
      * Output      : workToDo - if set, mean caller is required to call one more time
      *             : multisource - flag to indicate multi source for given node
      */
-    private boolean getDraftTestCase_recursive(UmlNode node){
-        
-        boolean mutlisource = false;
-        int skipped = 0;
-        for (AdjacentNode source :node.getSources()){
-            if (processedSource > 0 ){
-                processedSource--;
-                skipped++;
-                continue;
-            }
-            if (mutlisource){
-                workToDo = true;
-                processedSource++;
-                processedSource += skipped;
-                return mutlisource;
-            }
-            UmlNode next  = UmlNodes.get(source.getIndex());
+    private void getDraftTestCase_recursive(UmlNode node){
 
-            connectCondition(next,source);
-            mutlisource = getDraftTestCase_recursive(next);
+        for (AdjacentNode source :node.getSources()){
+
+
+            UmlNode next  = UmlNodes.get(source.getIndex());
+            ConditionModel model = connectCondition(next,source);
+            getDraftTestCase_recursive(next);
+            disconnectCondition(next,model);
         }
-        return node.isDecisionNode()?true:false;
+
+        if (node.isFirstNode())
+        {
+
+            TestCase toBeSaved = cloneTestCase(temp);
+            Collections.reverse(toBeSaved.getConditionModels());
+            testcases.add(toBeSaved);
+        }
+    }
+
+    private TestCase cloneTestCase(TestCase src)
+    {
+        TestCase tc = new TestCase();
+
+        tc.setConditionModels((ArrayList<ConditionModel>) src.getConditionModels().clone());
+        tc.setValid(src.isValid());
+        return tc;
     }
     /**
      * Method Name : printTestCases
@@ -143,7 +139,7 @@ public class TestCaseTable {
      *             : 
      * Output      : temp - testCase to be added in global array, testcases
      */
-    private void connectCondition (UmlNode node,AdjacentNode source){
+    private ConditionModel connectCondition (UmlNode node,AdjacentNode source){
         if (node.isDecisionNode()){
             ConditionModel model = new ConditionModel();
             model.setName(node.getSources().get(0).getName());
@@ -152,35 +148,70 @@ public class TestCaseTable {
             condition.setName(source.getCondition());
             model.getConditions().add(condition);
             temp.getConditionModels().add(model);
+            return model;
         }
+        return null;
     }
 
-    private TestCase optimizeTestCase (TestCase testCase){
-        ConditionModel prevModel = null;
-        ArrayList <ConditionModel> toBeDeleted = new ArrayList <ConditionModel>();
-        TestCase returnTestCase = testCase;
-        for (ConditionModel model : testCase.getConditionModels()){
-            if (compareConditionModel(model,prevModel)){
-                toBeDeleted.add(model);
-            }else{
-                prevModel = model;
-            }
-        }
-        if (toBeDeleted.size() > 0){
-            for (ConditionModel model : toBeDeleted){
-                returnTestCase.getConditionModels().remove(model);
-            }
-        }
-        return returnTestCase;
-    }
-    private boolean compareConditionModel(ConditionModel model1, ConditionModel model2){
-        if (model1 == null || model2 == null ) return false;
-        if ( (model1.getName() == model2.getName()) &&
-                model1.getId() == model2.getId()  &&
-                model1.getConditions().get(0).getName() == model2.getConditions().get(0).getName()){
-            return true;
-        }
+    private void disconnectCondition (UmlNode node, ConditionModel model){
+        if (node.isDecisionNode()){
 
+            temp.getConditionModels().remove(model);
+        }
+    }
+    private void removeDup(){
+        ArrayList l2 = new ArrayList();
+
+        Iterator iterator = testcases.iterator();
+
+        while (iterator.hasNext())
+        {
+            TestCase o = (TestCase) iterator.next();
+            if(!contain(l2,o)) l2.add(o);
+        }
+        testcases = l2;
+    }
+    private boolean contain(ArrayList<TestCase> tcs, TestCase tc){
+        for (TestCase testcase : tcs){
+            if (compareTestCase(tc, testcase)){
+                return true;
+            }
+        }
         return false;
+    }
+    private boolean compareTestCase(TestCase tc1, TestCase tc2){
+        if (tc1.getConditionModels().size() == tc2.getConditionModels().size()){
+            for (int i = 0; i < tc1.getConditionModels().size(); i++)
+            {
+                if (tc1.getConditionModels().get(i).getId() != tc2.getConditionModels().get(i).getId())
+                {
+                    return false; // id mismatch
+                }
+                else{
+                    // id matched need to check condition
+                    ArrayList<Condition> con1 = tc1.getConditionModels().get(i).getConditions();
+                    ArrayList<Condition> con2 = tc2.getConditionModels().get(i).getConditions();
+                    if (con1.size() != con2.size())
+                    {
+                        return false; // condition size mismatch
+                    }
+                    else{
+                        // size matched
+                        for (int j = 0; j < con1.size(); j++)
+                        {
+                            if (con1.get(j).getName() != con2.get(j).getName())
+                            {
+                                return false; // id mismatch
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            return false;
+        }
+
+        return true;
     }
 }
