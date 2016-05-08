@@ -21,11 +21,9 @@ import RelTestFTA.view.ButtonRenderer;
 import RelTestFTA.view.Output;
 import com.alee.laf.WebLookAndFeel;
 
-
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -80,10 +78,10 @@ public class RelTestFTA {
                   public void actionPerformed(ActionEvent e) {
                       JFileChooser fileopen = new JFileChooser();
                       FileFilter filter = new FileNameExtensionFilter(
-                              "XML file", "xml");
+                              "UML file", "uml");
                       fileopen.setFileFilter(filter);
 
-                      int ret = fileopen.showDialog(null, "Choose XML file");
+                      int ret = fileopen.showDialog(null, "Choose UML file");
 
                       if (ret == JFileChooser.APPROVE_OPTION) {
 
@@ -186,8 +184,12 @@ public class RelTestFTA {
                                     return this.getLabel();
                                 }
                             });
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
+                    } catch (Exception e1) {
+                        JOptionPane.showMessageDialog(form,
+                                ErrorReporting.FILE_ERROR_DECODE,
+                                ErrorReporting.FILE_ERROR_TITLE,
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
                     }
                 }
             });

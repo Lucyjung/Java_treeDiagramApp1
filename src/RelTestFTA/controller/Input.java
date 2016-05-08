@@ -56,7 +56,7 @@ public class Input {
         success = false;
         populated = false;
     }
-    public void processFile (File chosenFile) throws IOException, SAXException {
+    public void processFile (File chosenFile) throws Exception {
         setFilePath(chosenFile.getPath());
         try {
             openXml(chosenFile);

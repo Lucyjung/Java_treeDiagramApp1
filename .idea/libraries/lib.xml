@@ -1,9 +1,8 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/dist/lib/eclipselink.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dist/lib/javax.persistence_2.1.0.v201304241213.jar!/" />
-      <root url="jar://$PROJECT_DIR$/dist/lib/org.eclipse.persistence.jpa.jpql_2.5.2.v20140319-9ad6abd.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jgraphx.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/weblaf-complete-1.29.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
