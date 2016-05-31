@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 /**
  * Class Name  : RelTestFTA 
@@ -44,6 +45,7 @@ public class RelTestFTA {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         final int  panelWidth = Configurations.PANEL_WIDTH;
@@ -62,9 +64,13 @@ public class RelTestFTA {
 
         final AppForm form = new AppForm();
         form.setVisible(true);
-
+        String path = RelTestFTA.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        path = path.replace("RelTestFTA.jar", "");
+        System.out.println(path);
+        
         // *******************************************************************
         // Step 1. load input
+
 
         if (testMode) {
             Input testInput = new TestInput(Configurations.TEST_FILE);
@@ -73,81 +79,75 @@ public class RelTestFTA {
         else{
             // *******************************************************************
             // Step 1. Process Input File
-            form.getBtnButton().addActionListener(new ActionListener() {
-                  @Override
-                  public void actionPerformed(ActionEvent e) {
-                      JFileChooser fileopen = new JFileChooser();
-                      FileFilter filter = new FileNameExtensionFilter(
-                              "UML file", "uml");
-                      fileopen.setFileFilter(filter);
-
-                      int ret = fileopen.showDialog(null, "Choose UML file");
-
-                      if (ret == JFileChooser.APPROVE_OPTION) {
-
-                          // Read Text file
-                          File file = fileopen.getSelectedFile();
-
-                          try {
-                              input.reInit();
-                              input.processFile(file);
-                          } catch (Exception e1) {
-                              JOptionPane.showMessageDialog(form,
-                                      ErrorReporting.FILE_ERROR_TYPE,
-                                      ErrorReporting.FILE_ERROR_TITLE,
-                                      JOptionPane.ERROR_MESSAGE);
-                              return;
-                          }
-                          if (Configurations.PRINT_DEBUG_INFO) input.printUmlNodesArray();
-                          if (Configurations.PRINT_DEBUG_INFO) System.out.println(input.getFilePath());
-
-                          form.getTxtFile().setText(fileopen.getSelectedFile().toString());
-                          try {
-                              form.getGoalList().removeAllItems();
-                              for (String goal : input.getGoalList()){
-                                  form.getGoalList().addItem(goal);
-                              }
-                              form.getBtnGoal().setEnabled(true);
-                          }catch (Exception ignored){
-
-                          }
-
-
-                          form.reInitTable();
-                      }
-                  }
-              }
-            );
-            form.getBtnGoal().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    final String validGoal = form.getGoalList().getSelectedItem().toString();
-
+            form.getBtnButton().addActionListener((ActionEvent e) -> {
+                JFileChooser fileopen = new JFileChooser();
+                FileFilter filter = new FileNameExtensionFilter(
+                        "UML file", "uml");
+                fileopen.setFileFilter(filter);
+                
+                int ret = fileopen.showDialog(null, "Choose UML file");
+                
+                if (ret == JFileChooser.APPROVE_OPTION) {
+                    
+                    // Read Text file
+                    File file = fileopen.getSelectedFile();
+                    
                     try {
-
-                        GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
-                        ArrayList<UmlNode> nodes= processingGoal.getUmlNodes();
-                        if (Configurations.PRINT_DEBUG_INFO) input.printUmlNodesArray();
-
-                        // *******************************************************************
-                        // Step 2. Execute Methodology
-                        final Methodology methodology = new Methodology(nodes,input.getFinalNode());
-                        methodology.Execute();
-                        ArrayList<TestCase> testCases = methodology.getTestCases();
-
-
-                        form.getTable().setValueAt(testCases.size(),0,Configurations.TESTCASE_COLUMN);
-                        form.getTable().setValueAt(methodology.getValidTestCaseCount(),1,Configurations.TESTCASE_COLUMN);
-                        form.getTable().setValueAt(methodology.getInvalidTestCaseCount(),2,Configurations.TESTCASE_COLUMN);
-
-                        form.getTable().setValueAt(Configurations.CCTM_BUTTON_NAME,0,Configurations.BUTTON_COLUMN);
-                        form.getTable().setValueAt(Configurations.STD_BUTTON_NAME,1,Configurations.BUTTON_COLUMN);
-                        form.getTable().setValueAt(Configurations.FTD_BUTTON_NAME,2,Configurations.BUTTON_COLUMN);
-
-                        // *******************************************************************
-                        // Step 3. Draw diagram on click Event
-                        form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(new ButtonRenderer(true));
-                        form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(
+                        input.reInit();
+                        input.processFile(file);
+                    } catch (Exception e1) {
+                        JOptionPane.showMessageDialog(form,
+                                ErrorReporting.FILE_ERROR_TYPE,
+                                ErrorReporting.FILE_ERROR_TITLE,
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    if (Configurations.PRINT_DEBUG_INFO) input.printUmlNodesArray();
+                    if (Configurations.PRINT_DEBUG_INFO) System.out.println(input.getFilePath());
+                    
+                    form.getTxtFile().setText(fileopen.getSelectedFile().toString());
+                    try {
+                        form.getGoalList().removeAllItems();
+                        input.getGoalList().stream().forEach((goal) -> {
+                            form.getGoalList().addItem(goal);
+                        });
+                        form.getBtnGoal().setEnabled(true);
+                    }catch (Exception ignored){
+                        
+                    }
+                    
+                    
+                    form.reInitTable();
+                }
+            });
+            form.getBtnGoal().addActionListener((ActionEvent e) -> {
+                final String validGoal = form.getGoalList().getSelectedItem().toString();
+                
+                try {
+                    
+                    GoalProcessor processingGoal = new GoalProcessor(input, validGoal);
+                    ArrayList<UmlNode> nodes= processingGoal.getUmlNodes();
+                    if (Configurations.PRINT_DEBUG_INFO) input.printUmlNodesArray();
+                    
+                    // *******************************************************************
+                    // Step 2. Execute Methodology
+                    final Methodology methodology = new Methodology(nodes,input.getFinalNode());
+                    methodology.Execute();
+                    ArrayList<TestCase> testCases = methodology.getTestCases();
+                    
+                    
+                    form.getTable().setValueAt(testCases.size(),0,Configurations.TESTCASE_COLUMN);
+                    form.getTable().setValueAt(methodology.getValidTestCaseCount(),1,Configurations.TESTCASE_COLUMN);
+                    form.getTable().setValueAt(methodology.getInvalidTestCaseCount(),2,Configurations.TESTCASE_COLUMN);
+                    
+                    form.getTable().setValueAt(Configurations.CCTM_BUTTON_NAME,0,Configurations.BUTTON_COLUMN);
+                    form.getTable().setValueAt(Configurations.STD_BUTTON_NAME,1,Configurations.BUTTON_COLUMN);
+                    form.getTable().setValueAt(Configurations.FTD_BUTTON_NAME,2,Configurations.BUTTON_COLUMN);
+                    
+                    // *******************************************************************
+                    // Step 3. Draw diagram on click Event
+                    form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellRenderer(new ButtonRenderer(true));
+                    form.getTable().getColumn(Configurations.BUTTON_COLUMN_NAME).setCellEditor(
                             new ButtonEditor(new JCheckBox()){
                                 @Override
                                 public Object getCellEditorValue() {
@@ -184,13 +184,12 @@ public class RelTestFTA {
                                     return this.getLabel();
                                 }
                             });
-                    } catch (Exception e1) {
-                        JOptionPane.showMessageDialog(form,
-                                ErrorReporting.FILE_ERROR_DECODE,
-                                ErrorReporting.FILE_ERROR_TITLE,
-                                JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
+                } catch (Exception e1) {
+                    JOptionPane.showMessageDialog(form,
+                            ErrorReporting.FILE_ERROR_DECODE,
+                            ErrorReporting.FILE_ERROR_TITLE,
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             });
         }
@@ -239,7 +238,6 @@ public class RelTestFTA {
                 stdFrame.drawTreeDiagram(STD, validGoal);
                 stdFrame.setVisible(true);
             }catch (Exception e){
-                e.printStackTrace();
                 JOptionPane.showMessageDialog(null,
                         e.getMessage(),
                         ErrorReporting.FILE_ERROR_TYPE,

@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaTest1:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaTest1_jar</output-path>
+    <root id="archive" name="JavaTest1.jar">
+      <element id="module-output" name="JavaTest1" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/jgraphx.jar" path-in-jar="/" />
+      <element id="dir-copy" path="$PROJECT_DIR$/res" />
+    </root>
+  </artifact>
+</component>

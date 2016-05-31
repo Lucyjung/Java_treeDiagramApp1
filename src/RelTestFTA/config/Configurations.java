@@ -4,6 +4,11 @@ package RelTestFTA.config;
  * Created by Lucy on 14/1/2559.
  */
 public enum Configurations {;
+
+    /**
+     *
+     */
+    public static String APPLICATION_NAME = "RelTestFTA.jar";
     public static boolean PRINT_DEBUG_INFO = false;       // debug info
     public static boolean TEST_MODE = false;              // Test mode will read file from below config
     public static String TEST_FILE = "xml/testxmi2.xml";
@@ -11,7 +16,7 @@ public enum Configurations {;
     public static String TEST_GOAL = "Accept transaction";
     //public static String TEST_GOAL = "Accept Transection";
     public static String TEST_INVALID_GOAL = "Reject transaction";
-
+    
     // App Lang display
     public static String HEADER_APP = "Reliability Tests for Process Flow with Fault Tree Analysis";
     public static String HEADER_CCTM_FRAME = "Condition-Classification Tree Method";
