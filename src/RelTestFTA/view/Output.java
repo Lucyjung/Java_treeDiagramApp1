@@ -117,10 +117,16 @@ public class Output extends JFrame {
             
          
 
-            String filename = Output.class.getResource(
-                            Configurations.SHAPE_FILE_PATH).getPath();
-            Document doc = mxXmlUtils.parseXml(mxUtils.readFile(filename));
+//            String filename = Output.class.getResource(
+//                            Configurations.SHAPE_FILE_PATH).getPath();
+            
+            String path = Output.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            path = path.replace(Configurations.APPLICATION_NAME, "");
+            String filename = path + Configurations.SHAPE_FILE_PATH;
 
+            Document doc;
+            doc = mxXmlUtils.parseXml(mxUtils.readFile(filename));
+            
             Element shapes = doc.getDocumentElement();
             NodeList list = shapes.getElementsByTagName("shape");
 
